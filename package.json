@@ -1,0 +1,15 @@
+{
+  "name": "@supa-magic/skillbox",
+  "version": "1.0.0",
+  "description": "Collection of reusable AI skills",
+  "keywords": ["ai", "skills", "claude", "codegen", "developer-tools"],
+  "license": "MIT",
+  "contributors": ["sultan99", "bafxyz"],
+  "scripts": {
+    "start": "clear && claude --dangerously-skip-permissions"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.6",
+    "typescript": "5.8.3"
+  }
+}

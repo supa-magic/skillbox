@@ -1,0 +1,104 @@
+{
+  "$schema": "https://biomejs.dev/schemas/2.3.14/schema.json",
+  "vcs": {
+    "enabled": false,
+    "clientKind": "git",
+    "useIgnoreFile": false
+  },
+  "files": {
+    "includes": [
+      "**/*.js",
+      "**/*.jsx",
+      "**/*.ts",
+      "**/*.tsx",
+      "**/*.css",
+      "**/*.scss",
+      "**/*.graphql",
+      "**/*.json",
+      "!**/.github/workflows",
+      "!**/build",
+      "!**/coverage",
+      "!**/dist",
+      "!**/.npm",
+      "!**/.git",
+      "!**/.turbo",
+      "!**/.idea",
+      "!**/.next",
+      "!**/.log",
+      "!**/node_modules",
+      "!**/*.d.ts",
+      "!**/_generated-*.ts",
+      "!**/*.gen.ts",
+      "!**/.yalc",
+      "!**/testing/**/*",
+      "!**/gql/**/*",
+      "!**/playwright-report",
+      "!**/test-results",
+      "!**/monocart-report"
+    ]
+  },
+  "formatter": {
+    "enabled": true,
+    "indentStyle": "space",
+    "lineWidth": 80,
+    "lineEnding": "lf",
+    "includes": ["**", "!**/gql/**"]
+  },
+  "assist": {
+    "actions": {
+      "source": {
+        "organizeImports": {
+          "level": "on",
+          "options": {
+            "groups": [{ "type": true }]
+          }
+        }
+      }
+    }
+  },
+  "linter": {
+    "enabled": true,
+    "rules": {
+      "recommended": true,
+      "style": {
+        "useEnumInitializers": "off",
+        "useDefaultSwitchClause": "error",
+        "useFilenamingConvention": {
+          "level": "warn",
+          "options": {
+            "requireAscii": true,
+            "strictCase": false,
+            "filenameCases": ["kebab-case"]
+          }
+        },
+        "useImportType": {
+          "level": "on",
+          "options": {
+            "style": "separatedType"
+          }
+        }
+      },
+      "correctness": {
+        "noUnusedImports": "warn",
+        "noUnusedVariables": "warn"
+      }
+    },
+    "includes": ["**", "!**/gql/**"]
+  },
+  "javascript": {
+    "formatter": {
+      "quoteStyle": "single",
+      "jsxQuoteStyle": "single",
+      "semicolons": "asNeeded",
+      "trailingCommas": "all"
+    }
+  },
+  "css": {
+    "formatter": {
+      "enabled": true,
+      "indentWidth": 2,
+      "indentStyle": "space",
+      "quoteStyle": "single"
+    }
+  }
+}
