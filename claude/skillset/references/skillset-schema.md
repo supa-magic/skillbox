@@ -7,7 +7,7 @@ Reference for the `skillset.yml` manifest format.
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
 | `name` | string | yes | Skillset name in kebab-case |
-| `version` | string | yes | Semantic version (default: `1.0.0`) |
+| `version` | string | no | Semantic version (default: `1.0.0`) |
 | `description` | string | yes | One-line description of the skillset |
 | `provider` | string | yes | Provider name (e.g., `claude`, `cursor`) |
 | `setup` | string | yes | Path to setup instructions (always `SETUP.md`) |
@@ -20,17 +20,17 @@ Map of skill entries. Each key is a skill alias, each value has:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `source` | string | yes | Source path — `skillbox/<skill>` for local, or `<org>/<repo>/<path>` for external |
+| `source` | string | yes | Source path — `<provider>/<skill>` for local (e.g., `claude/skill`), or `<org>/<repo>/<path>` for external |
 | `files` | list | yes | List of file paths relative to the skill source |
 
 ```yaml
 skills:
-  git:
-    source: skillbox/git
+  skill:
+    source: claude/skill
     files:
       - SKILL.md
-      - commit.md
-      - branch.md
+      - create.md
+      - refine.md
 ```
 
 ### agents

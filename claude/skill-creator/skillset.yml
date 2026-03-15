@@ -1,6 +1,6 @@
 name: skill-creator
 version: 1.0.0
-description: "Skill creates and refines Claude Skills"
+description: "Creates and refines Claude skills"
 provider: claude
 setup: SETUP.md
 

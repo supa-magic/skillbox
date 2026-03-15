@@ -5,8 +5,8 @@ provider: {{provider}}
 setup: SETUP.md
 
 skills: {}
-#  git:
-#    source: skillbox/git
+#  skill:
+#    source: claude/skill
 #    files:
 #      - SKILL.md
 #      - commit.md

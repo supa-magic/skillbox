@@ -22,6 +22,6 @@ Copy the following files into your project's `.claude/skills/skill/` directory:
 
 ## Verification
 
-After installation, verify by running `/skill create` or `/skill refine` to confirm files are in place.
+After installation, verify by running `/skill create my-skill` or `/skill refine my-skill` to confirm files are in place.
 
 🧙‍♂️ Magic happens

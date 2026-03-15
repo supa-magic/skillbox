@@ -71,7 +71,7 @@ Ask:
 >
 > For each skill, provide:
 > - **Alias** — short name (e.g., `git`, `testing`)
-> - **Source** — path or URL (e.g., `skillbox/git`, `ComposioHQ/awesome-claude-skills/lint`)
+> - **Source** — path or URL (e.g., `claude/skill`, `ComposioHQ/awesome-claude-skills/lint`)
 > - **Files** — list of files to include from that source
 >
 > Enter skills one at a time, or paste multiple. Type **done** when finished.
@@ -83,7 +83,7 @@ Collect entries in a loop. For each entry, parse:
 
 Keep collecting until the developer types "done" or equivalent ("that's it", "no more", "finished", etc.).
 
-If no skills provided → set `skills: {}`.
+If no skills provided → leave `skills` empty (it will be omitted from the generated YAML in Step 5).
 
 ### Step 4: Collect Remaining Sections
 
