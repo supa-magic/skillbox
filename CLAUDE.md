@@ -21,6 +21,7 @@ Configured in `.mcp.json` (project-local):
 
 **Development:**
 - `/implement <issue-number> [-y]` — Feature implementation workflow (plan, implement, test, commit)
+- `/skill create|refine <skill-name> [-y]` — Interactive skill creator and refiner (use cases, structure, SKILL.md, validation)
 
 **Git:**
 - `/git branch [issue]` — Create branch from GitHub issue

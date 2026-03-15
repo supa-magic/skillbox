@@ -20,21 +20,22 @@ git rebase origin/<branch-name>   # default: main
 
 ### Step 3: Resolve conflicts (if any)
 
-1. **Analyze both sides:**
-   - Ours (HEAD) = your implemented changes
-   - Theirs (incoming) = changes from target branch
+1. **Analyze both sides** (rebase swaps ours/theirs vs merge):
+   - Ours = the upstream branch being rebased onto (target branch commits)
+   - Theirs = your commits being replayed on top
 
 2. **Resolve wisely:**
-   - Keep your implementation logic intact
-   - Integrate incoming changes (imports, renamed functions)
-   - If code was refactored → apply your changes to new structure
+   - Preserve your implementation logic from "theirs" (your replayed commits)
+   - Integrate upstream changes from "ours" (imports, renamed functions, refactors)
+   - If upstream refactored code → adapt your changes to the new structure
    - If both modified same logic → combine intentions, prefer cleaner solution
 
-3. **After resolving:**
+3. **After resolving each conflict:**
    ```bash
    git add <resolved-file>
    git rebase --continue
    ```
+   Repeat for each conflicting commit until rebase completes.
 
 4. **If stuck:** `git rebase --abort` and ask for help.
 

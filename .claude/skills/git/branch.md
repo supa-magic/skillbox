@@ -25,9 +25,13 @@ Examples: `feature/12/add-user-login`, `fix/34/validation-error`, `chore/78/upda
 
 ### Step 1: Fetch GitHub issue (if issue number provided)
 
+If no issue number is provided, ask the developer for a short description of the branch purpose to generate the branch name from.
+
 ```bash
 gh issue view <number>
 ```
+
+If the issue is not found → error: "Issue #`<number>` not found. Verify the issue number and try again." and stop.
 
 Get issue labels (bug, enhancement, etc.) and title/description.
 
@@ -40,6 +44,8 @@ Determine prefix from issue labels AND description context:
 - Urgent production fix → `hotfix/`
 - Maintenance, cleanup, dependencies → `chore/`
 
+If no labels are present or labels don't map to a known prefix, infer from the issue title/description. If still ambiguous, default to `feature/` and confirm with the developer.
+
 ### Step 3: Validate description length
 
 - MUST be 2-4 words only (kebab-case)
@@ -51,3 +57,5 @@ Determine prefix from issue labels AND description context:
 ```bash
 git checkout -b <branch-name>
 ```
+
+If the branch already exists → error: "Branch `<branch-name>` already exists. Switch to it with `git checkout <branch-name>` or choose a different name." and stop.
