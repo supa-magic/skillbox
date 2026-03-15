@@ -108,7 +108,7 @@ For each section: if the developer says "skip", "none", "no", or equivalent → 
 
 ### Step 5: Generate skillset.yml
 
-Read the template at `claude/skillset/assets/skillset-template.yml` for structure reference. Read `claude/skillset/references/skillset-schema.md` for field validation.
+Read the template at `./assets/skillset-template.yml` for structure reference. Read `./references/skillset-schema.md` for field validation.
 
 Build the YAML content:
 
@@ -156,7 +156,7 @@ Create installation instructions based on collected sections. The SETUP.md shoul
 3. For each non-empty section (`agents`, `hooks`, `mcp`, `memory`, `rules`): list files to copy and their target location
 4. Include a verification step
 
-Use `claude/skillset/assets/setup-template.md` as structural reference, but generate concrete content — replace all template placeholders with actual file paths from the collected data.
+Use `./assets/setup-template.md` as structural reference, but generate concrete content — replace all template placeholders with actual file paths from the collected data.
 
 ### Step 7: Review and Confirm
 
