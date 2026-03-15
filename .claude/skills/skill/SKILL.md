@@ -2,7 +2,7 @@
 name: skill
 description: Interactive skill creator and refiner. Use when developer wants to create a new Claude skill, build a skill, scaffold a skill, refine or improve an existing skill, or says "new skill". Walks through use case definition, structure planning, SKILL.md generation, and validation.
 user-invocable: true
-argument-hint: "[skill-name] [--refine] [-y]"
+argument-hint: "create|refine <skill-name> [-y]"
 license: MIT
 compatibility: "Claude Code CLI"
 metadata:
@@ -21,17 +21,16 @@ Interactive workflow to create or refine Claude skills.
 ## Usage
 
 ```
-/skill                              Create new skill (ask for name)
-/skill deploy-checker               Create "deploy-checker" (if exists → prompt to refine)
-/skill deploy-checker --refine      Refine existing "deploy-checker" skill
-/skill deploy-checker -y            Create, skip confirmations
-/skill deploy-checker --refine -y   Refine, skip confirmations
+/skill create deploy-checker          Create "deploy-checker" skill
+/skill create deploy-checker -y       Create, skip confirmations
+/skill refine deploy-checker          Refine existing "deploy-checker" skill
+/skill refine deploy-checker -y       Refine, skip confirmations
 ```
 
 | Argument | Format | Default | Effect |
 |----------|--------|---------|--------|
-| `skill-name` | Positional, kebab-case | — | Pre-sets the skill name |
-| `--refine` | Flag | `false` | Refine an existing skill instead of creating |
+| `create` \| `refine` | Subcommand (first token) | `create` | Determines workflow |
+| `skill-name` | Positional, kebab-case | — | Target skill name (required) |
 | `-y`, `--yes` | Flag | `false` | Skip all confirmation gates |
 
 ## Instructions
@@ -40,12 +39,13 @@ Interactive workflow to create or refine Claude skills.
 
 Extract from `$ARGUMENTS`:
 
-1. Collect all non-flag tokens → join with hyphens to form `skill-name` (e.g., `my cool skill` → `my-cool-skill`)
-2. `--refine` anywhere → `mode = refine`
+1. First non-flag token → `subcommand` (`create` or `refine`). If missing or not one of these → default to `create` and treat the token as `skill-name` instead.
+2. Next non-flag token(s) → join with hyphens to form `skill-name` (e.g., `my cool skill` → `my-cool-skill`)
 3. `-y` or `--yes` anywhere → `skip_confirmations = true`
-4. If `$ARGUMENTS` is empty → all values unset, `mode = create`
+4. If `$ARGUMENTS` is empty → error: "Skill name required. Usage: `/skill create <skill-name>` or `/skill refine <skill-name>`" and stop.
 
-**Validate `skill-name`** (if provided):
+**Validate `skill-name`** (required):
+- If `skill-name` is empty → error: "Skill name required. Usage: `/skill create <skill-name>` or `/skill refine <skill-name>`" and stop.
 - Convert to lowercase and replace spaces/underscores with hyphens
 - Check it matches kebab-case pattern: `^[a-z][a-z0-9]*(-[a-z0-9]+)*$`
 - If invalid after normalization → error: "Invalid skill name `<raw-input>`. Skill names must be kebab-case (e.g., `deploy-checker`). Suggested: `<normalized>`" and stop.
@@ -54,22 +54,17 @@ Store parsed values and reference them throughout — do NOT re-parse later.
 
 ### Step 2: Route to Workflow
 
-**If `mode = refine`:**
-- If `skill-name` is empty → error: "Skill name required for refine mode. Usage: `/skill <skill-name> --refine`" and stop.
+**If `subcommand = refine`:**
 - Verify `.claude/skills/<skill-name>/SKILL.md` exists. If not → error: "Skill `<skill-name>` not found." and stop.
 - Read `claude/skill/refine.md` and follow all steps.
 
-**If `skill-name` was provided and `mode = create`:**
+**If `subcommand = create`:**
 - Check if `.claude/skills/<skill-name>/SKILL.md` already exists
-- If it exists and `skip_confirmations` → set `mode = refine`, read `claude/skill/refine.md` and follow all steps
 - If it exists → ask:
   > Skill **`<skill-name>`** already exists. Would you like to refine it instead? [Y/n]
-  - If yes (or default) → set `mode = refine`, read `claude/skill/refine.md` and follow all steps
+  - If yes (or default) → set `subcommand = refine`, read `claude/skill/refine.md` and follow all steps
   - If no → error: "Skill already exists. Choose a different name." and stop.
 - If it does NOT exist → read `claude/skill/create.md` and follow all steps
-
-**If `skill-name` was NOT provided:**
-- Read `claude/skill/create.md` and follow all steps
 
 ## Troubleshooting
 
@@ -82,5 +77,5 @@ Cause: Partial or corrupted skill — folder was created but SKILL.md was never 
 Solution: Treat as a new skill. Warn the developer that the folder exists with orphaned files, ask whether to overwrite or choose a different name.
 
 ### Error: Skill not found (refine mode)
-Cause: `--refine` was used but `.claude/skills/<skill-name>/SKILL.md` does not exist.
+Cause: `/skill refine <name>` was used but `.claude/skills/<skill-name>/SKILL.md` does not exist.
 Solution: Suggest switching to create mode or check the skill name for typos. List available skills with a glob of `.claude/skills/*/SKILL.md`.
