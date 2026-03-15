@@ -2,7 +2,7 @@
 name: github
 description: GitHub commands (issues, PRs, ship). Use when developer needs to create issues, create/update PRs, address review comments, or ship experimental changes.
 user-invocable: true
-argument-hint: <action> [pr-number] [-y]
+argument-hint: "action [pr-number] [-y]"
 ---
 
 # /github $ARGUMENTS

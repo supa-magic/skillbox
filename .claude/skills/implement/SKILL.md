@@ -1,8 +1,8 @@
 ---
 name: implement
-description: Feature implementation workflow. Use when developer wants to implement a feature or fix - creates branch, plans, and implements.
+description: Feature implementation workflow. Use when developer wants to implement a feature or fix - creates branch, plans, and implements. Use when developer says "implement issue", "work on issue #12", "build feature #5", or "fix issue".
 user-invocable: true
-argument-hint: <issue-number> [-y]
+argument-hint: "issue-number [-y]"
 ---
 
 # /implement $ARGUMENTS
@@ -18,6 +18,11 @@ Feature implementation workflow — from issue to PR.
 
     -y, --yes             Skip confirmations
 ```
+
+| Argument | Format | Default | Effect |
+|----------|--------|---------|--------|
+| `issue-number` | Positional | — | GitHub issue number to implement |
+| `-y`, `--yes` | Flag | `false` | Skip all confirmation gates |
 
 **If no issue number provided:** Ask the developer for the issue number. Do not proceed without one.
 
@@ -196,3 +201,52 @@ After all steps are complete, **delete** the progress file:
 ```
 .claude/progress/<feature-slug>.md
 ```
+
+## Examples
+
+### Example 1: Basic implementation
+User says: `/implement 12`
+Actions:
+1. Fetch issue #12 details with `gh issue view 12`
+2. Create feature branch via `/git branch 12`
+3. Plan implementation, present plan, ask for mode preference
+4. Implement all plan items (or one-at-a-time in pair mode)
+5. Ask developer to verify, then commit and create PR
+Result: Feature branch with implementation, committed and PR opened
+
+### Example 2: Auto-confirm mode
+User says: `/implement 7 -y`
+Actions:
+1. Fetch issue #7 details
+2. Create feature branch via `/git branch 7`
+3. Plan implementation, default to Auto mode (no confirmation)
+4. Implement all plan items sequentially
+5. Skip verification, auto-commit via `/git commit -y` and create PR via `/github create pr -y`
+Result: Full implementation with PR opened, no manual confirmations
+
+### Example 3: Resuming previous work
+User says: `/implement 15`
+Actions:
+1. Find existing progress file `.claude/progress/add-user-auth.md`
+2. Show completed and remaining items, ask to continue
+3. Developer confirms → resume from first unchecked plan item
+4. Complete remaining items, then verify and commit
+Result: Resumed and completed partial implementation
+
+## Troubleshooting
+
+### Error: Issue not found
+Cause: Invalid issue number or issue does not exist in the repository.
+Solution: Verify the issue number with `gh issue list`. Confirm the correct repository is set as the remote.
+
+### Error: Branch already exists
+Cause: A branch for this issue was already created (possibly from a previous attempt).
+Solution: `/git branch` will handle this — check if the existing branch has relevant work and offer to reuse it or create a new one.
+
+### Error: Stash pop conflicts
+Cause: Uncommitted changes conflict with the new branch state after `git stash pop`.
+Solution: Resolve conflicts manually, then continue with Step 3. If conflicts are unresolvable, ask the developer whether to drop the stash or abort.
+
+### Error: gh CLI not authenticated
+Cause: GitHub CLI is not logged in or token has expired.
+Solution: Run `gh auth login` to authenticate before retrying.

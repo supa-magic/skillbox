@@ -18,3 +18,16 @@ Critical git actions (`commit`, `push`, `merge`, `rebase`, `reset`) require deve
 
 - Prefer staging specific files over `git add -A` or `git add .`
 - Always verify branch name follows naming convention before committing
+
+## Commit Message Format
+
+All commits must follow the format: `<emoji><type>(<scope>): <description>`
+
+See `commit.md` for the full type/emoji table. Always use a HEREDOC to pass commit messages to avoid issues with emojis and special characters:
+
+```bash
+git commit -m "$(cat <<'EOF'
+<emoji><type>(<scope>): <description>
+EOF
+)"
+```

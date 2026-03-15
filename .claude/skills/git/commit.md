@@ -48,14 +48,30 @@ If invalid → warn user before proceeding.
 
 Analyze git changes and create a commit message. Use present tense and explain "why" something has changed, not just "what" has changed.
 
-### Step 3: Group changes by
+### Step 3: Group changes into logical commits
 
-- Feature/component
-- Type (tests, styles, refactor)
+Group by the most natural boundary — whichever produces the clearest commits:
+
+1. **By feature/component** — files that implement the same feature or touch the same component go together (e.g., a new API endpoint + its route registration + its types)
+2. **By type** — if changes span many components but share a type, group by type (e.g., all test files in one commit, all dependency updates in another)
+3. **Single commit** — if all changes are cohesive (one feature, one fix), use a single commit
+
+Prefer fewer commits over many tiny ones. When in doubt, one well-described commit is better than three artificial groupings.
 
 ### Step 4: Create commit(s)
 
-Use the message format above.
+Use the message format above. Always pass the commit message via a HEREDOC to avoid issues with emojis, special characters, and multi-line messages:
+
+```bash
+git commit -m "$(cat <<'EOF'
+<emoji><type>(<scope>): <description>
+
+<optional body>
+
+<optional footer>
+EOF
+)"
+```
 
 **Confirmation gate:** Show the planned commit message(s) and files. If `-y` → proceed. Otherwise → ask "Proceed with commit?" and wait.
 

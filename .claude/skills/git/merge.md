@@ -33,8 +33,12 @@ git merge origin/<branch-name>   # default: main
 3. **After resolving:**
    ```bash
    git add <resolved-file>
-   git commit
+   git commit -m "$(cat <<'EOF'
+🎏merge: merge <source-branch> into <target-branch>
+EOF
+)"
    ```
+   Use the `🎏merge` type from the commit message convention for all merge commits.
 
 4. **If stuck:** `git merge --abort` and ask for help.
 
