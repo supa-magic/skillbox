@@ -1,0 +1,27 @@
+name: {{name}}
+version: 1.0.0
+description: ""
+provider: {{provider}}
+setup: SETUP.md
+
+skills: {}
+#  git:
+#    source: skillbox/git
+#    files:
+#      - SKILL.md
+#      - commit.md
+
+agents: []
+#  - agents/code-reviewer.md
+
+hooks: []
+#  - hooks/pre-commit.md
+
+mcp: []
+#  - mcp/server.json
+
+memory: []
+#  - memory/project-patterns.md
+
+rules: []
+#  - rules/architecture.md
