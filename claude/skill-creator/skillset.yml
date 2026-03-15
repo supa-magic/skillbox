@@ -1,0 +1,16 @@
+name: skill-creator
+version: 1.0.0
+description: "Skill creates and refines Claude Skills"
+provider: claude
+setup: SETUP.md
+
+skills:
+  skill:
+    source: claude/skill
+    files:
+      - SKILL.md
+      - assets/skill-template.md
+      - create.md
+      - references/skill-guidelines.md
+      - references/the-complete-guide-to-building-skills-for-claude.md
+      - refine.md
