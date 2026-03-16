@@ -1,3 +1,3 @@
 # Setup: skill-creator
 
-Print text: "🧙‍♂️ Magic happens..."
+Print text: "🧙‍ Magic happens..."
