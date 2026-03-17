@@ -6,6 +6,8 @@ Merge a branch into the current branch.
 
 ### Step 1: Fetch and confirm
 
+If no branch argument was provided, default to `main`.
+
 ```bash
 git fetch origin
 ```

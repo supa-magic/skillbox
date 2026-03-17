@@ -6,6 +6,8 @@ Rebase current branch onto another branch.
 
 ### Step 1: Fetch and confirm
 
+If no branch argument was provided, default to `main`.
+
 ```bash
 git fetch origin
 ```

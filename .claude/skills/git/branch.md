@@ -52,10 +52,18 @@ If no labels are present or labels don't map to a known prefix, infer from the i
 - Count words: split by `-` and verify count is between 2-4
 - If longer → shorten it, keep only key terms
 
-### Step 4: Create branch
+### Step 4: Confirm branch name
+
+**Confirmation gate:** Show the generated branch name. If `-y` → proceed. Otherwise → ask "Create branch `<branch-name>`?" and wait.
+
+### Step 5: Create branch
 
 ```bash
 git checkout -b <branch-name>
 ```
 
 If the branch already exists → error: "Branch `<branch-name>` already exists. Switch to it with `git checkout <branch-name>` or choose a different name." and stop.
+
+### Step 6: Report result
+
+Inform the developer the branch was created and is now the active branch. Show the branch name.

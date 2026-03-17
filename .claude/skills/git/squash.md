@@ -58,6 +58,6 @@ git restore --staged .
 
 This moves all changes from staged to unstaged, so `/git commit` can analyze and group them fresh.
 
-### Step 5: Run `/git commit`
+### Step 5: Create clean commit(s)
 
-Invoke the `/git commit` skill to analyze all changes and create clean, well-grouped commit(s) with proper messages.
+Follow the steps in `.claude/skills/git/commit.md` to analyze all changes and create clean, well-grouped commit(s) with proper messages.
