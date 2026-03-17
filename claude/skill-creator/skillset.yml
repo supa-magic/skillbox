@@ -14,3 +14,13 @@ skills:
       - references/skill-guidelines.md
       - references/the-complete-guide-to-building-skills-for-claude.md
       - refine.md
+  git:
+    source: claude/funcy-git
+    files:
+      - SKILL.md
+      - branch.md
+      - commit.md
+      - merge.md
+      - rebase.md
+      - squash.md
+      - references/rules.md
