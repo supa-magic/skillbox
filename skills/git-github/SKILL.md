@@ -10,7 +10,6 @@ metadata:
   category: development
   tags: [git, version-control, branching, commits, workflow]
   requires: gh
-  recommends: "@commitlint/cli"
 ---
 
 # /git $ARGUMENTS
