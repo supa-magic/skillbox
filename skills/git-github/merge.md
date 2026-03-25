@@ -12,7 +12,7 @@ If no branch argument was provided, default to `main`.
 git fetch origin
 ```
 
-**Confirmation gate:** Show which branch will be merged into the current branch. If `-y` → proceed. Otherwise → ask "Merge `origin/<branch>` into `<current>`?" and wait.
+**Confirmation gate:** Show which branch will be merged into the current branch. If `-y` or `--yes` → proceed. Otherwise → ask "Merge `origin/<branch>` into `<current>`?" and wait.
 
 ### Step 2: Merge
 
@@ -35,12 +35,8 @@ git merge origin/<branch-name>   # default: main
 3. **After resolving:**
    ```bash
    git add <resolved-file>
-   git commit -m "$(cat <<'EOF'
-🎏merge: merge <source-branch> into <target-branch>
-EOF
-)"
+   git merge --continue
    ```
-   Use the `🎏merge` type from the commit message convention for all merge commits.
 
 4. **If stuck:** `git merge --abort` and ask for help.
 

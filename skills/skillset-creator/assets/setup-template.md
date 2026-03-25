@@ -2,14 +2,14 @@
 
 ## Prerequisites
 
-- Claude Code CLI installed
+- AI coding assistant installed (Claude Code, Open Code, Cursor, etc.)
 - Git initialized in your project
 
 ## Installation
 
 ### 1. Copy skill files
 
-Copy the following files into your project's `.claude/skills/` directory:
+Copy the following files into your provider's skill directory:
 
 {{skill_files}}
 
