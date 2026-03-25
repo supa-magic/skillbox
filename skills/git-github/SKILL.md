@@ -1,13 +1,16 @@
 ---
 name: git
-description: Git commands for branching, committing, merging, rebasing, and squashing. Use when developer needs to create branches, commit changes, merge or rebase branches, or squash commits.
+description: Git commands for branching, committing, merging, pushing, rebasing, and squashing. Use when developer needs to create branches, commit changes, push, merge or rebase branches, or squash commits.
 user-invocable: true
-argument-hint: "branch|commit|merge|rebase|squash [args] [-y]"
+argument-hint: "branch|commit|merge|push|rebase|squash [args] [-y]"
+context: fork
 metadata:
   author: supa-magic
-  version: 1.1.0
+  version: 1.0.0
   category: development
   tags: [git, version-control, branching, commits, workflow]
+  requires: gh
+  recommends: "@commitlint/cli"
 ---
 
 # /git $ARGUMENTS
@@ -21,6 +24,7 @@ Git workflow commands.
     branch [issue]        Create branch from GitHub issue
     commit                Smart commit with auto-grouping
     merge [branch]        Merge branch into current (default: main)
+    push                  Validate commits and push to remote
     rebase [branch]       Rebase current branch onto another (default: main)
     squash                Squash all branch commits into clean commit(s)
 
@@ -35,7 +39,11 @@ Git workflow commands.
 
 ## Rules
 
-See [references/rules.md](references/rules.md) — applies to ALL git operations.
+These rules apply to ALL git operations — main thread and all agents.
+
+- Critical git actions (`commit`, `merge`, `push`, `rebase`, `reset`) require developer confirmation unless `-y` was passed
+- Never skip hooks (`--no-verify`, `--no-gpg-sign`) unless explicitly requested
+- Never use `git push --force` to main/master — warn user if requested
 
 ## Instructions
 
@@ -43,25 +51,26 @@ See [references/rules.md](references/rules.md) — applies to ALL git operations
 
 Extract from `$ARGUMENTS`:
 
-1. First non-flag token → `command` (one of: `branch`, `commit`, `merge`, `rebase`, `squash`)
+1. First non-flag token → `command` (one of: `branch`, `commit`, `merge`, `push`, `rebase`, `squash`)
 2. Remaining non-flag tokens → passed to the subcommand as positional args
-3. `-y` or `--yes` anywhere → `skip_confirmations = true`
+3. `-y` or `--yes` anywhere → skip all confirmation gates
 
 If no command is provided, list the available commands and ask the developer which one to run.
 
 If the command is not recognized, show:
 
-> Unknown command `<command>`. Available commands: `branch`, `commit`, `merge`, `rebase`, `squash`.
+> Unknown command `<command>`. Available commands: `branch`, `commit`, `merge`, `push`, `rebase`, `squash`.
 
 ### Step 2: Route to Subcommand
 
 Read the command-specific instruction file and follow it exactly:
 
-- **branch** → Read `.claude/skills/git/branch.md` and follow all steps
-- **commit** → Read `.claude/skills/git/commit.md` and follow all steps
-- **merge** → Read `.claude/skills/git/merge.md` and follow all steps
-- **rebase** → Read `.claude/skills/git/rebase.md` and follow all steps
-- **squash** → Read `.claude/skills/git/squash.md` and follow all steps
+- **branch** → Read [branch.md](./branch.md) and follow all steps
+- **commit** → Read [commit.md](./commit.md) and follow all steps
+- **merge** → Read [merge.md](./merge.md) and follow all steps
+- **push** → Read [push.md](./push.md) and follow all steps
+- **rebase** → Read [rebase.md](./rebase.md) and follow all steps
+- **squash** → Read [squash.md](./squash.md) and follow all steps
 
 ## Examples
 
@@ -88,9 +97,22 @@ Actions:
 4. Show planned commit for confirmation
 5. Create commit
 
-Result: `[feature/42/add-user-auth abc1234] 📦feat(auth): add login endpoint`
+Result: `[feature/42/add-user-auth abc1234] feat(auth): add login endpoint`
 
-### Example 3: Squash branch commits before PR
+### Example 3: Push branch to remote
+
+User says: `/git push`
+
+Actions:
+1. Verify not on main
+2. List branch commits
+3. Validate commit messages (no WIP, no Co-Authored-By)
+4. Confirm push with developer
+5. Push to remote
+
+Result: `Pushed 3 commit(s) to origin/feature/42/add-user-auth`
+
+### Example 4: Squash branch commits before PR
 
 User says: `/git squash`
 

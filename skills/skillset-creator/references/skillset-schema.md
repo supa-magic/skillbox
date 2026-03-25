@@ -20,13 +20,13 @@ Map of skill entries. Each key is a skill alias, each value has:
 
 | Field | Type | Required | Description |
 |-------|------|----------|-------------|
-| `source` | string | yes | Source path — `<provider>/<skill>` for local (e.g., `claude/skill`), or `<org>/<repo>/<path>` for external |
+| `source` | string | yes | Source path — `<org>/<skill>` for local (e.g., `./skillbox/skill-name`), or `<org>/<repo>/<path>` for external |
 | `files` | list | yes | List of file paths relative to the skill source |
 
 ```yaml
 skills:
   skill:
-    source: claude/skill
+    source: ./skillbox/skill-name
     files:
       - SKILL.md
       - create.md

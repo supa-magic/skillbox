@@ -1,6 +1,6 @@
 # Create Skill
 
-Workflow for creating a new Claude skill from scratch.
+Workflow for creating a new skill from scratch.
 
 Before starting, read `./references/skill-guidelines.md` for writing rules, conventions, and the validation checklist. Reference it throughout this workflow.
 
@@ -36,7 +36,7 @@ Take the developer's raw input and define:
 
 4. **Invocation style:**
    - **User-invocable** (`user-invocable: true`) — triggered by `/skill-name` slash command
-   - **Auto-triggered** (no `user-invocable` field) — Claude loads it automatically based on context matching the description
+   - **Auto-triggered** (no `user-invocable` field) — the AI loads it automatically based on context matching the description
 
 5. **Arguments & flags** (only for user-invocable skills):
    - Positional arguments, flags, defaults, and effects
@@ -46,7 +46,7 @@ Take the developer's raw input and define:
 
 6. **Reusable resources** — for each use case, analyze what would be needed when executing the workflow repeatedly:
    - Would the same code be rewritten each time? → `scripts/` (deterministic, token-efficient)
-   - Would Claude need to re-discover schemas, APIs, or domain knowledge? → `references/` (loaded as needed)
+   - Would the AI need to re-discover schemas, APIs, or domain knowledge? → `references/` (loaded as needed)
    - Would the same boilerplate or templates be used? → `assets/` (used in output, not loaded into context)
    - Does the skill have multiple subcommands? → sub-instruction files alongside SKILL.md (like `branch.md`, `commit.md`)
    - Does the skill have shared rules across subcommands? → `references/rules.md`
@@ -118,7 +118,7 @@ Apply all rules from `./references/skill-guidelines.md`:
   - `documentation` (optional) — URL to external docs
   - `support` (optional) — support contact email or URL
 
-The skill is read by another Claude instance. Focus on including information that would be beneficial and non-obvious to Claude — procedural knowledge, domain-specific details, and references to reusable assets.
+The skill is read by an AI coding assistant, not a human. Focus on including information that would be beneficial and non-obvious to the AI — procedural knowledge, domain-specific details, and references to reusable assets.
 
 Adapt the template to the skill being created — remove sections that don't apply, add sections as needed.
 
@@ -133,7 +133,7 @@ If the skill needs additional files (determined in Step 2), generate them:
 - **`assets/<file>`** — templates used by the skill
 
 File placement guide:
-- Sub-instructions (workflow files Claude follows step-by-step) → skill root alongside SKILL.md
+- Sub-instructions (workflow files the AI follows step-by-step) → skill root alongside SKILL.md
 - Reference material (rules, docs, schemas loaded as needed) → `references/`
 - Executable code → `scripts/`
 - Templates and static assets → `assets/`
@@ -152,7 +152,7 @@ Present the validation results. If any checks fail, fix them and re-validate.
 
 Wait for confirmation. If changes requested, apply them, re-present, and ask again.
 
-Once confirmed, write all files to `.claude/skills/<skill-name>/`.
+Once confirmed, write all files to `<skill-name>/` in the skills directory.
 
 ### Step 7: Update CLAUDE.md
 
@@ -176,7 +176,7 @@ Once confirmed, write all files to `.claude/skills/<skill-name>/`.
 > Skill **`<skill-name>`** created:
 >
 > **Files:**
-> - `.claude/skills/<skill-name>/SKILL.md`
+> - `<skill-name>/SKILL.md`
 > - <other files>
 >
 > **Test it:** `/<skill-name>` (or describe a trigger phrase for auto-triggered skills)

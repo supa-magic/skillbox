@@ -38,7 +38,7 @@ git log --oneline <merge-base>..HEAD
 
 If there are no commits (HEAD equals merge-base) → error: "No commits to squash — branch is already at the base." and stop.
 
-**Confirmation gate:** Show the commit count and list. If `-y` → proceed. Otherwise → ask "Squash these N commits?" and wait.
+**Confirmation gate:** Show the commit count and list. If `-y` or `--yes` → proceed. Otherwise → ask "Squash these N commits?" and wait.
 
 ### Step 3: Soft reset to base
 
@@ -60,4 +60,4 @@ This moves all changes from staged to unstaged, so `/git commit` can analyze and
 
 ### Step 5: Create clean commit(s)
 
-Follow the steps in `.claude/skills/git/commit.md` to analyze all changes and create clean, well-grouped commit(s) with proper messages.
+Invoke `/git commit` to analyze all changes and create clean, well-grouped commit(s).

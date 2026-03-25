@@ -1,10 +1,10 @@
 ---
 name: skill
-description: Interactive skill creator and refiner. Use when developer wants to create a new Claude skill, build a skill, scaffold a skill, refine or improve an existing skill, or says "new skill". Walks through use case definition, structure planning, SKILL.md generation, and validation.
+description: Interactive skill creator and refiner. Use when developer wants to create a new skill, build a skill, scaffold a skill, refine or improve an existing skill, or says "new skill". Walks through use case definition, structure planning, SKILL.md generation, and validation.
 user-invocable: true
 argument-hint: "create|refine <skill-name> [-y]"
 license: MIT
-compatibility: "Claude Code CLI"
+compatibility: "Any AI coding assistant that supports skills (Claude Code, Open Code, etc.)"
 metadata:
   author: supa-magic
   version: 1.0.0
@@ -16,7 +16,7 @@ metadata:
 
 # /skill $ARGUMENTS
 
-Interactive workflow to create or refine Claude skills.
+Interactive workflow to create or refine skills.
 
 ## Usage
 
@@ -55,11 +55,11 @@ Store parsed values and reference them throughout — do NOT re-parse later.
 ### Step 2: Route to Workflow
 
 **If `subcommand = refine`:**
-- Verify `.claude/skills/<skill-name>/SKILL.md` exists. If not → error: "Skill `<skill-name>` not found." and stop.
+- Verify `<skill-name>/SKILL.md` exists in the skills directory. If not → error: "Skill `<skill-name>` not found." and stop.
 - Read `./refine.md` and follow all steps.
 
 **If `subcommand = create`:**
-- Check if `.claude/skills/<skill-name>/SKILL.md` already exists
+- Check if `<skill-name>/SKILL.md` already exists in the skills directory
 - If it exists → ask:
   > Skill **`<skill-name>`** already exists. Would you like to refine it instead? [Y/n]
   - If yes (or default) → set `subcommand = refine`, read `./refine.md` and follow all steps
@@ -77,5 +77,5 @@ Cause: Partial or corrupted skill — folder was created but SKILL.md was never 
 Solution: Treat as a new skill. Warn the developer that the folder exists with orphaned files, ask whether to overwrite or choose a different name.
 
 ### Error: Skill not found (refine mode)
-Cause: `/skill refine <name>` was used but `.claude/skills/<skill-name>/SKILL.md` does not exist.
-Solution: Suggest switching to create mode or check the skill name for typos. List available skills with a glob of `.claude/skills/*/SKILL.md`.
+Cause: `/skill refine <name>` was used but `<skill-name>/SKILL.md` does not exist in the skills directory.
+Solution: Suggest switching to create mode or check the skill name for typos. List available skills with a glob of `*/SKILL.md` in the skills directory.

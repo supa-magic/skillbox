@@ -1,6 +1,6 @@
 # Skill Guidelines
 
-Rules, conventions, and validation for building Claude skills. Derived from Anthropic's Complete Guide to Building Skills for Claude.
+Rules, conventions, and validation for building skills. Derived from Anthropic's Complete Guide to Building Skills for Claude.
 
 ## Folder Structure
 
@@ -17,7 +17,7 @@ skill-name/
 
 File placement guide:
 - `SKILL.md` is required — the main skill entry point
-- Sub-instruction files (workflow steps Claude follows) live at the skill root alongside SKILL.md
+- Sub-instruction files (workflow steps the AI follows) live at the skill root alongside SKILL.md
 - Reference material (rules, domain docs, API schemas, etc.) goes in `references/`
 - Executable scripts go in `scripts/`
 - Templates and static assets go in `assets/`
@@ -38,7 +38,7 @@ description: What it does and when to use it. Include specific trigger phrases.
 **name** (required):
 - kebab-case only — no spaces, capitals, or underscores
 - Must match folder name
-- Must NOT contain "claude" or "anthropic" (reserved)
+- Must NOT contain vendor-specific terms ("claude", "anthropic", etc.)
 
 **description** (required):
 - MUST include BOTH: what the skill does AND when to use it (trigger conditions)
@@ -90,10 +90,10 @@ description: Implements the Project entity model with hierarchical relationships
 
 ## Writing Style
 
-- **Write for AI consumption** — the skill is read by another Claude instance, not a human. Focus on information that would be beneficial and non-obvious to Claude. Consider what procedural knowledge, domain-specific details, or reusable assets would help Claude execute tasks more effectively.
+- **Write for AI consumption** — the skill is read by an AI coding assistant, not a human. Focus on information that would be beneficial and non-obvious to the AI. Consider what procedural knowledge, domain-specific details, or reusable assets would help it execute tasks more effectively.
 - **Use imperative/infinitive form** (verb-first instructions), not second person. Use objective, instructional language (e.g., "To accomplish X, do Y" rather than "You should do X"). This maintains consistency and clarity for AI consumption.
 - **No duplication** — information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it's truly core to the skill. Keep only essential procedural instructions and workflow guidance in SKILL.md.
-- **Large references** — if reference files are large (>10k words), include grep search patterns in SKILL.md so Claude can find relevant sections without loading the entire file.
+- **Large references** — if reference files are large (>10k words), include grep search patterns in SKILL.md so the AI can find relevant sections without loading the entire file.
 
 ## Writing Quality Rules
 
@@ -117,9 +117,57 @@ Match the patterns used by existing skills in this project:
 - Use blockquotes (`>`) for messages shown to the developer
 - Use **Confirmation gate:** pattern for actions needing approval
 - Use `-y` / `--yes` flag convention for skipping confirmations
-- Reference sub-instruction files with "Read `.claude/skills/<skill>/file.md` and follow all steps"
+- Reference sub-instruction files with relative paths: "Read [file.md](./file.md) and follow all steps"
 - Use fenced code blocks for commands with expected output descriptions
-- Follow `.claude/rules/coding.md` conventions in any generated code
+
+## Shell Preprocessing
+
+Some AI coding assistants support shell preprocessing — commands that run before the prompt reaches the model, injecting output as static context. This saves a tool-call round trip for commands that always run.
+
+When writing skills, keep bash code blocks as the default (provider-agnostic). Shell preprocessing is applied as an optimization during refinement or installation, not during creation.
+
+**Eligible for preprocessing:** bash blocks that always run the same command with no `<placeholders>` or dynamic arguments.
+
+**Not eligible:** commands that depend on user input, prior step results, or contain placeholders.
+
+**Known providers with shell preprocessing support:**
+
+| Provider | Syntax |
+|----------|--------|
+| Claude Code | `` !`command` `` |
+| Open Code | `` !`command` `` |
+
+**Single command — before:**
+
+````markdown
+```bash
+git branch --show-current
+```
+````
+
+**Single command — after (using `` !`...` `` syntax):**
+
+```markdown
+!`git branch --show-current`
+```
+
+**Multiple commands in one block — before:**
+
+````markdown
+```bash
+git status
+git diff --staged
+git diff
+```
+````
+
+**Multiple commands — after:** each command becomes its own preprocessed line:
+
+```markdown
+!`git status`
+!`git diff --staged`
+!`git diff`
+```
 
 ## Validation Checklist
 
@@ -132,7 +180,7 @@ Match the patterns used by existing skills in this project:
 - [ ] YAML frontmatter has `---` delimiters (opening and closing)
 - [ ] `name` field is kebab-case, no spaces, no capitals
 - [ ] `name` matches folder name
-- [ ] `name` does not contain "claude" or "anthropic"
+- [ ] `name` does not contain vendor-specific terms ("claude", "anthropic", etc.)
 - [ ] `description` includes WHAT it does AND WHEN to use it
 - [ ] `description` is under 1024 characters
 - [ ] No XML angle brackets (`<` `>`) in frontmatter
@@ -155,7 +203,7 @@ Match the patterns used by existing skills in this project:
 
 ### Skill doesn't trigger automatically
 Cause: Description field is too vague or missing trigger phrases.
-Solution: Add specific phrases users would say. Include file types if relevant. Ask Claude "When would you use the `<skill-name>` skill?" to debug.
+Solution: Add specific phrases users would say. Include file types if relevant. Test by asking the AI "When would you use the `<skill-name>` skill?" to debug.
 
 ### Skill triggers on unrelated queries
 Cause: Description is too broad.

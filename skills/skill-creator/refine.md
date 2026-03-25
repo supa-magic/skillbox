@@ -1,6 +1,6 @@
 # Refine Skill
 
-Workflow for improving an existing Claude skill.
+Workflow for improving an existing skill.
 
 Before starting, read `./references/skill-guidelines.md` for writing rules, conventions, and the validation checklist. Reference it throughout this workflow.
 
@@ -8,7 +8,7 @@ Before starting, read `./references/skill-guidelines.md` for writing rules, conv
 
 ### Step 1: Analyze Existing Skill
 
-Read `.claude/skills/<skill-name>/SKILL.md` and all supporting files in the skill folder.
+Read `<skill-name>/SKILL.md` and all supporting files in the skill folder.
 
 Evaluate against the validation checklist in `./references/skill-guidelines.md` and identify:
 
@@ -17,6 +17,7 @@ Evaluate against the validation checklist in `./references/skill-guidelines.md` 
 3. **Content issues** — vague instructions, missing error handling, missing examples, excessive length, missing sections
 4. **Argument issues** — missing `-y` flag for skills with confirmation gates, undocumented arguments
 5. **Triggering issues** (auto-triggered only) — description too broad/narrow, missing trigger phrases
+6. **Shell preprocessing opportunities** — bash blocks with static commands that could be preprocessed (see `./references/skill-guidelines.md` § Shell Preprocessing)
 
 Present findings:
 
@@ -49,17 +50,35 @@ Apply the confirmed improvements:
 5. Follow all rules from `./references/skill-guidelines.md`
 6. Use `./assets/skill-template.md` as structural reference when restructuring
 
-### Step 3: Update CLAUDE.md (if needed)
+### Step 3: Optimize with shell preprocessing (optional)
+
+If the target provider supports shell preprocessing (see `./references/skill-guidelines.md` § Shell Preprocessing):
+
+1. Scan all skill files for bash code blocks
+2. Identify eligible blocks — static commands with no `<placeholders>` or dynamic arguments
+3. Suggest replacements using the provider's preprocessing syntax
+
+Present findings:
+
+> **Shell preprocessing opportunities:**
+> - `<file>` Step N: `<command>` → eligible
+> - `<file>` Step N: `<command>` → skipped (dynamic argument)
+>
+> Apply these optimizations?
+
+If the target provider is unknown or does not support shell preprocessing, skip this step.
+
+### Step 4: Update CLAUDE.md (if needed)
 
 If the refinement changed the skill's description, arguments, or invocation pattern, update the corresponding entry in `CLAUDE.md` to match. If the skill is user-invocable and has no entry in CLAUDE.md, add one.
 
-### Step 4: Re-validate
+### Step 5: Re-validate
 
 Run the full validation checklist from `./references/skill-guidelines.md`.
 
 If any checks fail, fix them.
 
-### Step 5: Write and Confirm
+### Step 6: Write and Confirm
 
 **Confirmation gate:** If `skip_confirmations` → write changes. Otherwise → show a diff summary of what changed, then ask:
 
@@ -67,7 +86,7 @@ If any checks fail, fix them.
 
 Wait for confirmation. Once confirmed, write all modified files.
 
-### Step 6: Output
+### Step 7: Output
 
 > Skill **`<skill-name>`** refined:
 >
@@ -77,5 +96,5 @@ Wait for confirmation. Once confirmed, write all modified files.
 > ...
 >
 > **Files modified:**
-> - `.claude/skills/<skill-name>/SKILL.md`
+> - `<skill-name>/SKILL.md`
 > - <other files if changed>

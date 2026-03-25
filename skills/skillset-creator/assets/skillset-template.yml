@@ -6,7 +6,7 @@ setup: SETUP.md
 
 skills: {}
 #  skill:
-#    source: claude/skill
+#    source: ./skillbox/skill-name
 #    files:
 #      - SKILL.md
 #      - commit.md

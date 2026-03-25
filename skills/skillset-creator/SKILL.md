@@ -4,7 +4,7 @@ description: Create skillset manifest (skillset.yml) with skills, agents, hooks,
 user-invocable: true
 argument-hint: "<name> [provider] [-y]"
 license: MIT
-compatibility: "Claude Code CLI"
+compatibility: "Any AI coding assistant that supports skills (Claude Code, Open Code, etc.)"
 metadata:
   author: supa-magic
   version: 1.0.0
@@ -19,15 +19,15 @@ Create a skillset manifest with interactive section collection.
 ## Usage
 
 ```
-/skillset my-project                  Create skillset in claude/my-project/
-/skillset my-project cursor           Create skillset in cursor/my-project/
-/skillset my-project claude -y        Create, skip confirmations
+/skillset my-project                  Create skillset with default provider
+/skillset my-project cursor           Create skillset for cursor provider
+/skillset my-project claude-code -y   Create for claude-code, skip confirmations
 ```
 
 | Argument | Format | Default | Effect |
 |----------|--------|---------|--------|
 | `name` | Positional (1st) | — | Skillset name (kebab-case), becomes folder and YAML `name` field |
-| `provider` | Positional (2nd) | `claude` | Provider folder to create skillset in |
+| `provider` | Positional (2nd) | — | Provider folder to create skillset in (e.g., `claude-code`, `cursor`, `open-code`) |
 | `-y`, `--yes` | Flag | `false` | Skip all confirmation gates |
 
 ## Instructions
@@ -37,8 +37,8 @@ Create a skillset manifest with interactive section collection.
 Extract from `$ARGUMENTS`:
 
 1. First non-flag token → `name`
-2. Second non-flag token → `provider` (default: `claude`)
-3. `-y` or `--yes` anywhere → `skip_confirmations = true`
+2. Second non-flag token → `provider` (required)
+3. `-y` or `--yes` anywhere → skip all confirmation gates
 
 **Validate `name`** (required):
 - If empty → error: "Skillset name required. Usage: `/skillset <name> [provider] [-y]`" and stop.
@@ -71,7 +71,7 @@ Ask:
 >
 > For each skill, provide:
 > - **Alias** — short name (e.g., `git`, `testing`)
-> - **Source** — path or URL (e.g., `claude/skill`, `ComposioHQ/awesome-claude-skills/lint`)
+> - **Source** — path or URL (e.g., `./skillbox/git-github`, `org/repo/skill-name`)
 > - **Files** — list of files to include from that source
 >
 > Enter skills one at a time, or paste multiple. Type **done** when finished.
@@ -151,8 +151,8 @@ Rules:
 
 Create installation instructions based on collected sections. The SETUP.md should:
 
-1. List prerequisites (Claude Code CLI, Git)
-2. For each skill in `skills`: list all files to copy and their target location under `.claude/skills/<alias>/`
+1. List prerequisites (AI coding assistant, Git)
+2. For each skill in `skills`: list all files to copy and their target location in the provider's skill directory
 3. For each non-empty section (`agents`, `hooks`, `mcp`, `memory`, `rules`): list files to copy and their target location
 4. Include a verification step
 
@@ -197,16 +197,16 @@ Present the generated files:
 User says: `/skillset nextjs-fsd`
 
 Actions:
-1. Parse: name=`nextjs-fsd`, provider=`claude`
+1. Parse: name=`nextjs-fsd`, provider=`claude-code`
 2. Ask for description → "Next.js project with Feature-Sliced Design architecture"
 3. Collect skills → `git` (skillbox/git), `testing` (skillbox/testing)
 4. Collect sections → rules: `rules/fsd-architecture.md`, rest skipped
 5. Generate `skillset.yml` and `SETUP.md`
-6. Write to `claude/nextjs-fsd/`
+6. Write to `<provider>/nextjs-fsd/`
 
 Result:
 ```
-claude/nextjs-fsd/
+<provider>/nextjs-fsd/
 ├── skillset.yml
 └── SETUP.md
 ```
