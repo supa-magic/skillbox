@@ -1,51 +1,45 @@
 # Post Install
 
-## Step 1: Enable commitlint (optional)
+## Step 1: Ensure GitHub CLI is installed
 
-By default `/git push` validates commit messages manually (rejects WIP, Co-Authored-By). You can optionally add [commitlint](https://commitlint.js.org/) for full Conventional Commits linting.
-
-If `@commitlint/cli` is in `devDependencies` and a `commit-msg` git hook runs commitlint (check `.git/hooks/commit-msg`, `.husky/commit-msg`, `.lefthook.yml`, `.simple-git-hooks.json`, or similar) → already enforced at commit time, skip to Step 2.
-
-If neither `package.json` nor `npx` available → skip to Step 2.
-
-Ask the developer: "Would you like to enable commitlint for commit message validation?"
-
-If **No** → skip to Step 2.
-
-### Install commitlint
-
-If `@commitlint/cli` is already in `devDependencies` → skip to "Patch push.md".
-
-If project has `package.json` → install as dev dependency:
+Check if `gh` is available:
 
 ```bash
-npm install -D @commitlint/cli @commitlint/config-conventional
+gh --version
 ```
 
-Add `commitlint.config.js` to the project root:
+If `gh` is not found → install it:
 
-```js
-export default { extends: ['@commitlint/config-conventional'] }
+| Platform | Command |
+|----------|---------|
+| macOS (Homebrew) | `brew install gh` |
+| Windows (winget) | `winget install --id GitHub.cli` |
+| Windows (scoop) | `scoop install gh` |
+| Linux (apt) | See below |
+
+**Linux (apt):**
+
+```bash
+(type -p wget >/dev/null || (sudo apt update && sudo apt-get install wget -y)) \
+  && sudo mkdir -p -m 755 /etc/apt/keyrings \
+  && out=$(mktemp) && wget -nv -O "$out" https://cli.github.com/packages/githubcli-archive-keyring.gpg \
+  && sudo tee /etc/apt/keyrings/githubcli-archive-keyring.gpg < "$out" > /dev/null \
+  && sudo chmod go+r /etc/apt/keyrings/githubcli-archive-keyring.gpg \
+  && echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/githubcli-archive-keyring.gpg] https://cli.github.com/packages stable main" | sudo tee /etc/apt/sources.list.d/github-cli.list > /dev/null \
+  && sudo apt update \
+  && sudo apt install gh -y
 ```
 
-If project has no `package.json` but system has `npx` → no install needed, will run via `npx commitlint@latest`.
+Verify authentication:
 
-### Patch push.md
+```bash
+gh auth status
+```
 
-Insert the following as a new step between "Validate commit messages" and "Push":
+If not authenticated → print to terminal and stop:
 
-```markdown
-### Step N: Lint with commitlint
-
-Run commitlint against all branch commits:
-
-\```bash
-git log --format="%s" $(git merge-base origin/$BASE_BRANCH HEAD)..HEAD | while read -r msg; do echo "$msg" | commitlint; done
-\```
-
-If commitlint is not installed locally, use `npx commitlint@latest` instead of `commitlint`.
-
-If any commit fails linting → show the errors and stop. Suggest using `/git squash` to rewrite commits.
+```
+🗝️ GitHub CLI is not authenticated. Run `gh auth login` to authenticate before using this skill.
 ```
 
 ## Step 2: Apply shell preprocessing (optional)
