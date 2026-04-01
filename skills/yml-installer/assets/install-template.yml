@@ -10,6 +10,7 @@ requires: []
 #  - gh
 
 agents: []
+#  - https://github.com/awesome-skills/fe/test-writer.md
 #  - code-reviewer.md
 
 hooks: {}
@@ -21,11 +22,12 @@ hooks: {}
 #      - complete.wav
 
 rules: []
-#  - architecture.md
+#  - ./code-style.md
+#  - https://github.com/awesome-skills/fe/architecture.md
 
 skills: {}
 #  git:
-#    source: ./
+#    source: https://github.com/awesome-skills/git
 #    files:
 #      - SKILL.md
 #      - references/command.md

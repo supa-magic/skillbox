@@ -20,12 +20,12 @@ Include only non-empty sections. Omit sections with no entries. Sections are lis
 
 ### agents
 
-List of agent definition files (relative to `install.yml`).
+List of agent definition files. Paths can be relative to `install.yml` or full URLs for external sources.
 
 ```yaml
 agents:
   - code-reviewer.md
-  - pr-summarizer.md
+  - https://github.com/awesome-skills/fe/test-writer.md
 ```
 
 ### hooks
@@ -44,12 +44,12 @@ hooks:
 
 ### rules
 
-List of rule files (relative to `install.yml`).
+List of rule files. Paths can be relative to `install.yml` or full URLs for external sources.
 
 ```yaml
 rules:
-  - architecture.md
-  - naming-conventions.md
+  - ./code-style.md
+  - https://github.com/awesome-skills/fe/architecture.md
 ```
 
 ### skills
@@ -74,7 +74,7 @@ skills:
 5. `compatibility` must be a list of strings if present
 6. `requires` must be a list of strings in `tool` or `tool@version` format if present
 7. `hooks` and `skills` entries must be maps of name → `{ source, files }` object
-8. All `files` entries and path lists (agents, rules) must be relative (no leading `/`); `source` may be a relative path or full URL
+8. All paths (agents, rules, files, source) can be relative to `install.yml` or full URLs for external sources
 9. Omit empty sections entirely (don't write `agents: []` or `skills: {}`)
 
 ## Examples
@@ -142,6 +142,7 @@ requires:
   - jq
 
 agents:
+  - https://github.com/awesome-skills/fe/test-writer.md
   - code-reviewer.md
 
 hooks:
@@ -151,7 +152,8 @@ hooks:
       - lint-check.sh
 
 rules:
-  - architecture.md
+  - ./architecture.md
+  - https://github.com/awesome-skills/fe/naming-conventions.md
 
 skills:
   git:
