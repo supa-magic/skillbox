@@ -1,0 +1,29 @@
+name: {{name}}
+version: 1.0.0
+description: ""
+license: # MIT
+compatibility: []
+#  - "Claude Code CLI"
+#  - node@22
+requires: []
+#  - node@18
+#  - gh
+
+agents: []
+#  - code-reviewer.md
+
+hooks: {}
+#  retro-game-sounds:
+#    - play.mjs
+#    - attention.wav
+#    - complete.wav
+
+rules: []
+#  - architecture.md
+
+skills: {}
+#  git:
+#    - SKILL.md
+#    - references/command.md
+
+setup: # SETUP.md

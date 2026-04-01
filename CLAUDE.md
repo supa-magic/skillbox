@@ -22,7 +22,7 @@ Configured in `.mcp.json` (project-local):
 **Development:**
 - `/implement <issue-number> [-y]` — Feature implementation workflow (plan, implement, test, commit)
 - `/skill create|refine <skill-name> [-y]` — Interactive skill creator and refiner (use cases, structure, SKILL.md, validation)
-- `/skillset <name> [provider] [-y]` — Create skillset manifest (skillset.yml + SETUP.md) with skills, agents, hooks, MCP, memory, and rules
+- `/yml-installer <path> [-y]` — Create install.yml manifest at given path for spm packages (skills, agents, hooks, rules)
 
 **Git:**
 - `/git branch [issue]` — Create branch from GitHub issue
