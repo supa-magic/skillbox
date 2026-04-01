@@ -74,7 +74,7 @@ skills:
 5. `compatibility` must be a list of strings if present
 6. `requires` must be a list of strings in `tool` or `tool@version` format if present
 7. `hooks` and `skills` entries must be maps of name → `{ source, files }` object
-8. All file paths must be relative (no leading `/`)
+8. All `files` entries and path lists (agents, rules) must be relative (no leading `/`); `source` may be a relative path or full URL
 9. Omit empty sections entirely (don't write `agents: []` or `skills: {}`)
 
 ## Examples

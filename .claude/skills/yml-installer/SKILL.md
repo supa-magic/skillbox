@@ -4,7 +4,7 @@ description: Create install.yml manifest for packages installable via spm. Suppo
 user-invocable: true
 argument-hint: "<path> [-y]"
 license: MIT
-compatibility: "Any AI coding assistant that supports skills (Claude Code, Open Code, etc.)"
+compatibility: "Any AI coding assistant that supports skills (Claude Code, OpenCode, etc.)"
 metadata:
   author: supa-magic
   version: 1.0.0

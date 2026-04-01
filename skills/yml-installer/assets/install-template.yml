@@ -21,7 +21,7 @@ hooks: {}
 #      - complete.wav
 
 rules: []
-#  - https://github.com/awesome-claude-skills/fe/architecture.md
+#  - architecture.md
 
 skills: {}
 #  git:
