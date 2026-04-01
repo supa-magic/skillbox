@@ -9,7 +9,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 const sound = process.argv[2]
 
 if (!sound) {
-  console.error("Usage: node play.mjs <sound-name>")
+  console.error("Usage: node player.mjs <sound-name>")
+  process.exit(1)
+}
+
+if (!/^[a-z0-9-]+$/.test(sound)) {
+  console.error("Invalid sound name — only lowercase letters, digits, and hyphens allowed")
   process.exit(1)
 }
 

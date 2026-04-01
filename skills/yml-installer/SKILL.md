@@ -240,7 +240,7 @@ Actions:
 2. Ask for description → "Retro game sound effects for AI coding assistant hooks"
 3. Collect metadata → license: MIT, compatibility: Claude Code CLI, node@18
 4. Collect agents → skip
-5. Collect hooks → `retro-game-sounds`: `play.mjs`, `attention.wav`, `complete.wav`, `error.wav`
+5. Collect hooks → `retro-game-sounds`: `player.mjs`, `attention.wav`, `complete.wav`, `error.wav`
 6. Collect rules → skip
 7. Collect skills → skip
 8. Setup → yes
@@ -259,7 +259,7 @@ compatibility:
 
 hooks:
   retro-game-sounds:
-    - play.mjs
+    - player.mjs
     - attention.wav
     - complete.wav
     - error.wav

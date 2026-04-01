@@ -24,9 +24,9 @@ Supported tools: **Claude Code**, **Cursor**, **Windsurf**, **Cline**, **OpenCod
 Run manually to verify sounds work on your system:
 
 ```bash
-node play.mjs complete
-node play.mjs attention
-node play.mjs error
+node player.mjs complete
+node player.mjs attention
+node player.mjs error
 ```
 
 ---
@@ -43,7 +43,7 @@ node play.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/play.mjs complete"
+            "command": "node /absolute/path/to/player.mjs complete"
           }
         ]
       }
@@ -53,7 +53,7 @@ node play.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/play.mjs attention"
+            "command": "node /absolute/path/to/player.mjs attention"
           }
         ]
       }
@@ -63,7 +63,7 @@ node play.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/play.mjs error"
+            "command": "node /absolute/path/to/player.mjs error"
           }
         ]
       }
@@ -73,7 +73,7 @@ node play.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/play.mjs subagent-complete"
+            "command": "node /absolute/path/to/player.mjs subagent-complete"
           }
         ]
       }
@@ -83,7 +83,7 @@ node play.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/play.mjs compacted"
+            "command": "node /absolute/path/to/player.mjs compacted"
           }
         ]
       }
@@ -106,12 +106,12 @@ node play.mjs error
   "hooks": {
     "stop": [
       {
-        "command": "node /absolute/path/to/play.mjs complete"
+        "command": "node /absolute/path/to/player.mjs complete"
       }
     ],
     "afterFileEdit": [
       {
-        "command": "node /absolute/path/to/play.mjs attention"
+        "command": "node /absolute/path/to/player.mjs attention"
       }
     ]
   }
@@ -131,19 +131,19 @@ node play.mjs error
   "hooks": {
     "post_cascade_response": [
       {
-        "command": "node /absolute/path/to/play.mjs complete",
+        "command": "node /absolute/path/to/player.mjs complete",
         "show_output": false
       }
     ],
     "pre_user_prompt": [
       {
-        "command": "node /absolute/path/to/play.mjs attention",
+        "command": "node /absolute/path/to/player.mjs attention",
         "show_output": false
       }
     ],
     "post_run_command": [
       {
-        "command": "node /absolute/path/to/play.mjs complete",
+        "command": "node /absolute/path/to/player.mjs complete",
         "show_output": false
       }
     ]
@@ -164,14 +164,14 @@ Create one file per event (filename = event name, no extension):
 **`~/Documents/Cline/Hooks/TaskComplete`**:
 ```bash
 #!/usr/bin/env bash
-node /absolute/path/to/play.mjs complete
+node /absolute/path/to/player.mjs complete
 echo '{"cancel": false}'
 ```
 
 **`~/Documents/Cline/Hooks/PreCompact`**:
 ```bash
 #!/usr/bin/env bash
-node /absolute/path/to/play.mjs compacted
+node /absolute/path/to/player.mjs compacted
 echo '{"cancel": false}'
 ```
 
@@ -193,13 +193,13 @@ chmod +x ~/Documents/Cline/Hooks/*
 export default async ({ $ }) => ({
   hooks: {
     "session.idle": async () => {
-      await $`node /absolute/path/to/play.mjs complete`
+      await $`node /absolute/path/to/player.mjs attention`
     },
     "session.compacted": async () => {
-      await $`node /absolute/path/to/play.mjs compacted`
+      await $`node /absolute/path/to/player.mjs compacted`
     },
     "session.error": async () => {
-      await $`node /absolute/path/to/play.mjs error`
+      await $`node /absolute/path/to/player.mjs error`
     },
   },
 })
@@ -214,4 +214,4 @@ export default async ({ $ }) => ({
 - **No sound on Linux**: Install `alsa-utils` (`sudo apt install alsa-utils`)
 - **No sound on macOS**: `afplay` is built-in, check system volume
 - **No sound on Windows**: PowerShell `Media.SoundPlayer` is built-in, check system volume
-- **Path**: Replace `/absolute/path/to/play.mjs` with `~/.spm/retro-game/play.mjs` (default install location)
+- **Path**: Replace `/absolute/path/to/player.mjs` with `~/.spm/retro-game/player.mjs` (default install location)

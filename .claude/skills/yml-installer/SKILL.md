@@ -1,6 +1,6 @@
 ---
 name: yml-installer
-description: Create install.yml manifest for packages installable via spm. Supports skills, skillsets, agents, hooks, MCP, memory, and rules. Use when developer wants to create an install manifest, or says "new install", "create install.yml".
+description: Create install.yml manifest for packages installable via spm. Supports skills, agents, hooks, and rules. Use when developer wants to create an install manifest, or says "new install", "create install.yml".
 user-invocable: true
 argument-hint: "<path> [-y]"
 license: MIT

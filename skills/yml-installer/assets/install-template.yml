@@ -14,16 +14,20 @@ agents: []
 
 hooks: {}
 #  retro-game-sounds:
-#    - play.mjs
-#    - attention.wav
-#    - complete.wav
+#    source: ./skills/sounds/retro-game
+#    files:
+#      - waves/attention.wav
+#      - waves/complete.wav
+#      - player.mjs
 
 rules: []
-#  - architecture.md
+#  - https://github.com/awesome-claude-skills/fe/architecture.md
 
 skills: {}
 #  git:
-#    - SKILL.md
-#    - references/command.md
+#    source: https://github.com/composio-hq/awesome-claude-skills/lint
+#    files:
+#      - SKILL.md
+#      - references/command.md
 
 setup: # SETUP.md

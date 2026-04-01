@@ -35,7 +35,7 @@ Map of hook entries. Each key is a hook name, each value is a list of files to i
 ```yaml
 hooks:
   retro-game-sounds:
-    - play.mjs
+    - player.mjs
     - attention.wav
     - complete.wav
 ```
@@ -88,7 +88,7 @@ compatibility:
 
 hooks:
   retro-game-sounds:
-    - play.mjs
+    - player.mjs
     - attention.wav
     - compacted.wav
     - complete.wav
