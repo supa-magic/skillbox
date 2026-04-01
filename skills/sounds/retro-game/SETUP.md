@@ -33,7 +33,7 @@ node player.mjs error
 
 ## Claude Code
 
-**Config file**: `~/.claude/settings.json` (user-level) or `.claude/settings.json` (project-level)
+**Config file**: `.claude/settings.json` (project-level)
 
 ```json
 {
@@ -43,7 +43,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/player.mjs complete"
+            "command": "node .spm/retro-game-sounds/player.mjs complete"
           }
         ]
       }
@@ -53,7 +53,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/player.mjs attention"
+            "command": "node .spm/retro-game-sounds/player.mjs attention"
           }
         ]
       }
@@ -63,7 +63,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/player.mjs error"
+            "command": "node .spm/retro-game-sounds/player.mjs error"
           }
         ]
       }
@@ -73,7 +73,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/player.mjs subagent-complete"
+            "command": "node .spm/retro-game-sounds/player.mjs subagent-complete"
           }
         ]
       }
@@ -83,7 +83,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node /absolute/path/to/player.mjs compacted"
+            "command": "node .spm/retro-game-sounds/player.mjs compacted"
           }
         ]
       }
@@ -98,7 +98,7 @@ node player.mjs error
 
 ## Cursor
 
-**Config file**: `.cursor/hooks.json` (project-level) or `~/.cursor/hooks.json` (user-level)
+**Config file**: `.cursor/hooks.json` (project-level)
 
 ```json
 {
@@ -106,12 +106,12 @@ node player.mjs error
   "hooks": {
     "stop": [
       {
-        "command": "node /absolute/path/to/player.mjs complete"
+        "command": "node .spm/retro-game-sounds/player.mjs complete"
       }
     ],
     "afterFileEdit": [
       {
-        "command": "node /absolute/path/to/player.mjs attention"
+        "command": "node .spm/retro-game-sounds/player.mjs attention"
       }
     ]
   }
@@ -124,26 +124,26 @@ node player.mjs error
 
 ## Windsurf
 
-**Config file**: `.windsurf/hooks.json` (workspace) or `~/.codeium/windsurf/hooks.json` (user-level)
+**Config file**: `.windsurf/hooks.json` (project-level)
 
 ```json
 {
   "hooks": {
     "post_cascade_response": [
       {
-        "command": "node /absolute/path/to/player.mjs complete",
+        "command": "node .spm/retro-game-sounds/player.mjs complete",
         "show_output": false
       }
     ],
     "pre_user_prompt": [
       {
-        "command": "node /absolute/path/to/player.mjs attention",
+        "command": "node .spm/retro-game-sounds/player.mjs attention",
         "show_output": false
       }
     ],
     "post_run_command": [
       {
-        "command": "node /absolute/path/to/player.mjs complete",
+        "command": "node .spm/retro-game-sounds/player.mjs complete",
         "show_output": false
       }
     ]
@@ -157,27 +157,27 @@ node player.mjs error
 
 ## Cline
 
-**Config location**: `~/Documents/Cline/Hooks/` (macOS/Linux) or `.clinerules/hooks/` (project-level)
+**Config location**: `.clinerules/hooks/` (project-level)
 
 Create one file per event (filename = event name, no extension):
 
-**`~/Documents/Cline/Hooks/TaskComplete`**:
+**`.clinerules/hooks/TaskComplete`**:
 ```bash
 #!/usr/bin/env bash
-node /absolute/path/to/player.mjs complete
+node .spm/retro-game-sounds/player.mjs complete
 echo '{"cancel": false}'
 ```
 
-**`~/Documents/Cline/Hooks/PreCompact`**:
+**`.clinerules/hooks/PreCompact`**:
 ```bash
 #!/usr/bin/env bash
-node /absolute/path/to/player.mjs compacted
+node .spm/retro-game-sounds/player.mjs compacted
 echo '{"cancel": false}'
 ```
 
 Make scripts executable:
 ```bash
-chmod +x ~/Documents/Cline/Hooks/*
+chmod +x .clinerules/hooks/*
 ```
 
 > Cline supports: `TaskStart`, `TaskResume`, `TaskCancel`, `TaskComplete`, `PreToolUse`, `PostToolUse`, `UserPromptSubmit`, `PreCompact`.
@@ -186,20 +186,20 @@ chmod +x ~/Documents/Cline/Hooks/*
 
 ## OpenCode
 
-**Config location**: `.opencode/plugins/` (project-level) or `~/.config/opencode/plugins/` (global)
+**Config location**: `.opencode/plugins/` (project-level)
 
 **`.opencode/plugins/retro-sounds.mjs`**:
 ```javascript
 export default async ({ $ }) => ({
   hooks: {
     "session.idle": async () => {
-      await $`node /absolute/path/to/player.mjs attention`
+      await $`node .spm/retro-game-sounds/player.mjs attention`
     },
     "session.compacted": async () => {
-      await $`node /absolute/path/to/player.mjs compacted`
+      await $`node .spm/retro-game-sounds/player.mjs compacted`
     },
     "session.error": async () => {
-      await $`node /absolute/path/to/player.mjs error`
+      await $`node .spm/retro-game-sounds/player.mjs error`
     },
   },
 })
@@ -214,4 +214,4 @@ export default async ({ $ }) => ({
 - **No sound on Linux**: Install `alsa-utils` (`sudo apt install alsa-utils`)
 - **No sound on macOS**: `afplay` is built-in, check system volume
 - **No sound on Windows**: PowerShell `Media.SoundPlayer` is built-in, check system volume
-- **Path**: Replace `/absolute/path/to/player.mjs` with `~/.spm/retro-game/player.mjs` (default install location)
+- **Path**: Default install location is `.spm/retro-game-sounds/player.mjs` (project-level)

@@ -88,12 +88,14 @@ Ask:
 >
 > For each hook, provide:
 > - **Name** — hook name (e.g., `retro-game-sounds`, `pre-commit`)
+> - **Source** — relative to `install.yml` (use `./` for local) or full path/URL for external
 > - **Files** — list of files to include
 >
 > Enter hooks one at a time, or paste multiple. Type **done** when finished.
 
 Collect entries in a loop. For each entry, parse:
 - `name`: kebab-case key
+- `source`: relative path (default `./`) or full path/URL for external
 - `files`: list of file paths
 
 Keep collecting until the developer types "done" or equivalent.
@@ -116,12 +118,14 @@ Ask:
 >
 > For each skill, provide:
 > - **Alias** — short name (e.g., `git`, `testing`)
+> - **Source** — relative to `install.yml` (use `./` for local) or full path/URL for external
 > - **Files** — list of files to include (e.g., `SKILL.md`, `references/command.md`)
 >
 > Enter skills one at a time, or paste multiple. Type **done** when finished.
 
 Collect entries in a loop. For each entry, parse:
 - `alias`: kebab-case key
+- `source`: relative path (default `./`) or full path/URL for external
 - `files`: list of file paths
 
 Keep collecting until the developer types "done" or equivalent.
@@ -160,16 +164,20 @@ agents:
 
 hooks:
   <name>:
-    - <file1>
-    - <file2>
+    source: <./ or full-path/url>
+    files:
+      - <file1>
+      - <file2>
 
 rules:
   - <file>
 
 skills:
   <alias>:
-    - <file1>
-    - <file2>
+    source: <./ or full-path/url>
+    files:
+      - <file1>
+      - <file2>
 
 setup: SETUP.md
 ```
@@ -240,7 +248,7 @@ Actions:
 2. Ask for description → "Retro game sound effects for AI coding assistant hooks"
 3. Collect metadata → license: MIT, compatibility: Claude Code CLI, node@18
 4. Collect agents → skip
-5. Collect hooks → `retro-game-sounds`: `player.mjs`, `attention.wav`, `complete.wav`, `error.wav`
+5. Collect hooks → `retro-game-sounds`: source=`./`, files=`player.mjs`, `attention.wav`, `complete.wav`, `error.wav`
 6. Collect rules → skip
 7. Collect skills → skip
 8. Setup → yes
@@ -259,10 +267,12 @@ compatibility:
 
 hooks:
   retro-game-sounds:
-    - player.mjs
-    - attention.wav
-    - complete.wav
-    - error.wav
+    source: ./
+    files:
+      - player.mjs
+      - attention.wav
+      - complete.wav
+      - error.wav
 
 setup: SETUP.md
 ```
@@ -278,7 +288,7 @@ Actions:
 4. Collect agents → skip
 5. Collect hooks → skip
 6. Collect rules → `fsd-architecture.md`
-7. Collect skills → `git`: `SKILL.md`, `commit.md`, `branch.md`
+7. Collect skills → `git`: source=`./`, files=`SKILL.md`, `commit.md`, `branch.md`
 8. Setup → yes
 9. Generate files, skip confirmations
 10. Write files
@@ -294,9 +304,11 @@ rules:
 
 skills:
   git:
-    - SKILL.md
-    - commit.md
-    - branch.md
+    source: ./
+    files:
+      - SKILL.md
+      - commit.md
+      - branch.md
 
 setup: SETUP.md
 ```

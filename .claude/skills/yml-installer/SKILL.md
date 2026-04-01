@@ -4,7 +4,7 @@ description: Create install.yml manifest for packages installable via spm. Suppo
 user-invocable: true
 argument-hint: "<path> [-y]"
 license: MIT
-compatibility: "Claude Code CLI"
+compatibility: "Any AI coding assistant that supports skills (Claude Code, Open Code, etc.)"
 metadata:
   author: supa-magic
   version: 1.0.0
@@ -25,7 +25,7 @@ Create a universal `install.yml` manifest for any package type.
 
 | Argument | Format | Default | Effect |
 |----------|--------|---------|--------|
-| `path` | Positional (1st) | — | Path to the folder where install.yml will be created (name derived from folder) |
+| `path` | Positional (1st) | — | Path to the folder where install.yml will be created |
 | `-y`, `--yes` | Flag | `false` | Skip all confirmation gates |
 
 ## Instructions

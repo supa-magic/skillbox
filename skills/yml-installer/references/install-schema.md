@@ -30,14 +30,16 @@ agents:
 
 ### hooks
 
-Map of hook entries. Each key is a hook name, each value is a list of files to include.
+Map of hook entries. Each key is a hook name, with `source` (relative to `install.yml` or full path/URL for external sources) and `files` (list of files to include). Use `./` when files live alongside `install.yml`.
 
 ```yaml
 hooks:
   retro-game-sounds:
-    - player.mjs
-    - attention.wav
-    - complete.wav
+    source: ./
+    files:
+      - player.mjs
+      - attention.wav
+      - complete.wav
 ```
 
 ### rules
@@ -52,13 +54,15 @@ rules:
 
 ### skills
 
-Map of skill entries. Each key is a skill alias, each value is a list of files to include.
+Map of skill entries. Each key is a skill alias, with `source` (relative to `install.yml` or full path/URL for external sources) and `files` (list of files to include). Use `./` when files live alongside `install.yml`.
 
 ```yaml
 skills:
   git:
-    - SKILL.md
-    - references/command.md
+    source: ./
+    files:
+      - SKILL.md
+      - references/command.md
 ```
 
 ## Validation Rules
@@ -69,7 +73,7 @@ skills:
 4. `license` must be a valid SPDX identifier if present
 5. `compatibility` must be a list of strings if present
 6. `requires` must be a list of strings in `tool` or `tool@version` format if present
-7. `hooks` and `skills` entries must be maps of name → file list
+7. `hooks` and `skills` entries must be maps of name → `{ source, files }` object
 8. All file paths must be relative (no leading `/`)
 9. Omit empty sections entirely (don't write `agents: []` or `skills: {}`)
 
@@ -88,12 +92,14 @@ compatibility:
 
 hooks:
   retro-game-sounds:
-    - player.mjs
-    - attention.wav
-    - compacted.wav
-    - complete.wav
-    - error.wav
-    - subagent-complete.wav
+    source: ./
+    files:
+      - player.mjs
+      - attention.wav
+      - compacted.wav
+      - complete.wav
+      - error.wav
+      - subagent-complete.wav
 
 setup: SETUP.md
 ```
@@ -111,9 +117,11 @@ rules:
 
 skills:
   git:
-    - SKILL.md
-    - commit.md
-    - branch.md
+    source: ./
+    files:
+      - SKILL.md
+      - commit.md
+      - branch.md
 
 setup: SETUP.md
 ```
@@ -138,17 +146,23 @@ agents:
 
 hooks:
   pre-commit:
-    - lint-check.sh
+    source: ./
+    files:
+      - lint-check.sh
 
 rules:
   - architecture.md
 
 skills:
   git:
-    - SKILL.md
-    - commit.md
+    source: https://github.com/example/skills/git
+    files:
+      - SKILL.md
+      - commit.md
   testing:
-    - SKILL.md
+    source: ./
+    files:
+      - SKILL.md
 
 setup: SETUP.md
 ```
