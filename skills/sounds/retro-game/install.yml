@@ -1,6 +1,6 @@
 name: retro-game-sounds
 version: 1.0.0
-description: "Retro game sound effects for AI coding assistant hook events"
+description: "Retro game sound effects that help track AI coding assistant state via hook events"
 license: MIT
 compatibility:
   - Claude Code
@@ -9,12 +9,14 @@ requires:
 
 hooks:
   retro-game-sounds:
-    - player.mjs
-    - attention.wav
-    - compacted.wav
-    - complete.wav
-    - error.wav
-    - permission.wav
-    - subagent-complete.wav
+    source: ./
+    files:
+      - player.mjs
+      - attention.wav
+      - compacted.wav
+      - complete.wav
+      - error.wav
+      - permission.wav
+      - subagent-complete.wav
 
 setup: SETUP.md

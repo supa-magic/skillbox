@@ -10,20 +10,26 @@ requires: []
 #  - gh
 
 agents: []
+#  - https://github.com/awesome-skills/fe/test-writer.md
 #  - code-reviewer.md
 
 hooks: {}
 #  retro-game-sounds:
-#    - play.mjs
-#    - attention.wav
-#    - complete.wav
+#    source: ./
+#    files:
+#      - player.mjs
+#      - attention.wav
+#      - complete.wav
 
 rules: []
-#  - architecture.md
+#  - ./code-style.md
+#  - https://github.com/awesome-skills/fe/architecture.md
 
 skills: {}
 #  git:
-#    - SKILL.md
-#    - references/command.md
+#    source: https://github.com/awesome-skills/git
+#    files:
+#      - SKILL.md
+#      - references/command.md
 
 setup: # SETUP.md
