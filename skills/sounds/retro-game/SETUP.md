@@ -43,7 +43,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node .spm/retro-game-sounds/player.mjs complete"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs complete"
           }
         ]
       }
@@ -53,7 +53,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node .spm/retro-game-sounds/player.mjs attention"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs attention"
           }
         ]
       }
@@ -63,7 +63,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node .spm/retro-game-sounds/player.mjs error"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs error"
           }
         ]
       }
@@ -73,7 +73,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node .spm/retro-game-sounds/player.mjs subagent-complete"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs subagent-complete"
           }
         ]
       }
@@ -83,7 +83,7 @@ node player.mjs error
         "hooks": [
           {
             "type": "command",
-            "command": "node .spm/retro-game-sounds/player.mjs compacted"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs compacted"
           }
         ]
       }
@@ -106,12 +106,12 @@ node player.mjs error
   "hooks": {
     "stop": [
       {
-        "command": "node .spm/retro-game-sounds/player.mjs complete"
+        "command": "node .claude/hooks/retro-game-sounds/player.mjs complete"
       }
     ],
     "afterFileEdit": [
       {
-        "command": "node .spm/retro-game-sounds/player.mjs attention"
+        "command": "node .claude/hooks/retro-game-sounds/player.mjs attention"
       }
     ]
   }
@@ -131,19 +131,19 @@ node player.mjs error
   "hooks": {
     "post_cascade_response": [
       {
-        "command": "node .spm/retro-game-sounds/player.mjs complete",
+        "command": "node .claude/hooks/retro-game-sounds/player.mjs complete",
         "show_output": false
       }
     ],
     "pre_user_prompt": [
       {
-        "command": "node .spm/retro-game-sounds/player.mjs attention",
+        "command": "node .claude/hooks/retro-game-sounds/player.mjs attention",
         "show_output": false
       }
     ],
     "post_run_command": [
       {
-        "command": "node .spm/retro-game-sounds/player.mjs complete",
+        "command": "node .claude/hooks/retro-game-sounds/player.mjs complete",
         "show_output": false
       }
     ]
@@ -164,14 +164,14 @@ Create one file per event (filename = event name, no extension):
 **`.clinerules/hooks/TaskComplete`**:
 ```bash
 #!/usr/bin/env bash
-node .spm/retro-game-sounds/player.mjs complete
+node .claude/hooks/retro-game-sounds/player.mjs complete
 echo '{"cancel": false}'
 ```
 
 **`.clinerules/hooks/PreCompact`**:
 ```bash
 #!/usr/bin/env bash
-node .spm/retro-game-sounds/player.mjs compacted
+node .claude/hooks/retro-game-sounds/player.mjs compacted
 echo '{"cancel": false}'
 ```
 
@@ -193,13 +193,13 @@ chmod +x .clinerules/hooks/*
 export default async ({ $ }) => ({
   hooks: {
     "session.idle": async () => {
-      await $`node .spm/retro-game-sounds/player.mjs attention`
+      await $`node .claude/hooks/retro-game-sounds/player.mjs attention`
     },
     "session.compacted": async () => {
-      await $`node .spm/retro-game-sounds/player.mjs compacted`
+      await $`node .claude/hooks/retro-game-sounds/player.mjs compacted`
     },
     "session.error": async () => {
-      await $`node .spm/retro-game-sounds/player.mjs error`
+      await $`node .claude/hooks/retro-game-sounds/player.mjs error`
     },
   },
 })
@@ -214,4 +214,4 @@ export default async ({ $ }) => ({
 - **No sound on Linux**: Install `alsa-utils` (`sudo apt install alsa-utils`)
 - **No sound on macOS**: `afplay` is built-in, check system volume
 - **No sound on Windows**: PowerShell `Media.SoundPlayer` is built-in, check system volume
-- **Path**: Default install location is `.spm/retro-game-sounds/player.mjs` (project-level)
+- **Path**: Default install location is `.claude/hooks/retro-game-sounds/player.mjs` (project-level)
