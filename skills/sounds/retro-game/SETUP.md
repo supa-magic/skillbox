@@ -13,6 +13,7 @@ Supported tools: **Claude Code**, **Cursor**, **Windsurf**, **Cline**, **OpenCod
 | Tool failed with error        | `error.wav`          |
 | Subagent completed            | `subagent-complete.wav` |
 | Before context compaction     | `compacted.wav`      |
+| Waiting for permission        | `permission.wav`     |
 
 ## Prerequisites
 
@@ -27,6 +28,7 @@ Run manually to verify sounds work on your system:
 node player.mjs complete
 node player.mjs attention
 node player.mjs error
+node player.mjs permission
 ```
 
 ---
@@ -74,6 +76,16 @@ node player.mjs error
           {
             "type": "command",
             "command": "node .claude/hooks/retro-game-sounds/player.mjs subagent-complete"
+          }
+        ]
+      }
+    ],
+    "ToolInputRequired": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs permission"
           }
         ]
       }
