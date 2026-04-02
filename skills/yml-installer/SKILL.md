@@ -136,12 +136,17 @@ If no skills provided → leave `skills` empty (it will be omitted from the gene
 
 Ask:
 
-> Does this package need post-install setup instructions (SETUP.md)?
+> Does this package need setup instructions?
 >
-> - **yes** — generate a SETUP.md with installation guidance
+> - **single** — one `SETUP.md` with all providers
+> - **per-provider** — separate file per provider (e.g., `setup/claude.md`, `setup/cursor.md`)
 > - **no** — skip (no manual setup needed)
 
-Store as `has_setup`.
+If `per-provider`, ask:
+
+> Which providers need setup? (claude, cursor, windsurf, cline, opencode)
+
+Store as `setup_mode` (`single`, `per-provider`, or `none`) and `setup_providers` (list of selected providers).
 
 ### Step 9: Generate install.yml
 
@@ -180,6 +185,10 @@ skills:
       - <file2>
 
 setup: SETUP.md
+# or per-provider:
+setup:
+  claude: setup/claude.md
+  cursor: setup/cursor.md
 ```
 
 Rules:
@@ -189,20 +198,32 @@ Rules:
 - Only include `license` if provided
 - Only include `compatibility` if provided
 - Only include `requires` if provided
-- Only include `setup: SETUP.md` if `has_setup` is true
+- Only include `setup` if `setup_mode` is not `none`
+  - `single` → `setup: SETUP.md`
+  - `per-provider` → `setup:` map with `<provider>: setup/<provider>.md` entries
 - Content sections in alphabetical order: `agents`, `hooks`, `rules`, `skills`
 
-### Step 10: Generate SETUP.md (if applicable)
+### Step 10: Generate setup files (if applicable)
 
-If `has_setup` is true, create installation instructions. The SETUP.md should:
+If `setup_mode` is `none`, skip this step.
 
-1. Title: `# <name>`
-2. List prerequisites (Node.js version, platform tools, etc.)
-3. For each skill in `skills`: list files and their target location
-4. For each non-empty section (`agents`, `hooks`, `rules`): list files and target location
-5. Include provider-specific configuration examples where relevant (Claude Code, Cursor, Windsurf, Cline, OpenCode)
-6. Include a verification/testing step
-7. Include a troubleshooting section if applicable
+Setup files are **agent instructions** — the spawned Claude writes config files into `.spm/<name>/` (sandboxed), then spm moves/merges them to the provider's config location. No elevated permissions needed.
+
+Each setup file **must** use structured phases:
+
+1. Title: `# <name>` — brief description
+2. `## Pre Install` (include if there are prerequisites) — checks **before** `spm install`:
+   - Required tools, runtimes, platform dependencies (e.g., Node.js v18+, `alsa-utils` on Linux)
+3. `## Post Install` (include if there are post-install steps) — instructions for the spawned Claude to **write config files** in the working directory:
+   - Tell the agent exactly what file to create and its content
+   - spm handles moving/merging to the correct provider location
+   - Include verification steps and troubleshooting if applicable
+
+At least one phase (`## Pre Install` or `## Post Install`) must be present.
+
+**If `single`:** Generate one `SETUP.md` with all providers as subsections under `## Post Install` (e.g., `### Claude Code`, `### Cursor`).
+
+**If `per-provider`:** Generate one file per selected provider in a `setup/` directory (e.g., `setup/claude.md`, `setup/cursor.md`). Each file contains only that provider's instructions.
 
 ### Step 11: Review and Confirm
 
@@ -225,7 +246,8 @@ Present the generated files:
 ### Step 12: Write Files
 
 1. Write `<path>/install.yml`
-2. Write `<path>/SETUP.md` (if applicable)
+2. If `single` → write `<path>/SETUP.md`
+3. If `per-provider` → create `<path>/setup/` directory, write `<path>/setup/<provider>.md` for each provider
 
 ### Step 13: Output
 
@@ -233,7 +255,8 @@ Present the generated files:
 >
 > **Files:**
 > - `<path>/install.yml`
-> - `<path>/SETUP.md` (if applicable)
+> - `<path>/SETUP.md` (if single setup)
+> - `<path>/setup/<provider>.md` (if per-provider setup)
 >
 > Install with: `spm i <github-url-to-this-directory>`
 
@@ -251,8 +274,8 @@ Actions:
 5. Collect hooks → `retro-game-sounds`: source=`./`, files=`player.mjs`, `attention.wav`, `complete.wav`, `error.wav`
 6. Collect rules → skip
 7. Collect skills → skip
-8. Setup → yes
-9. Generate `install.yml` and `SETUP.md`
+8. Setup → per-provider: claude, cursor, windsurf, cline, opencode
+9. Generate `install.yml` and `setup/*.md` files
 10. Write files
 
 Result (`skills/sounds/retro-game/install.yml`):
@@ -274,7 +297,12 @@ hooks:
       - complete.wav
       - error.wav
 
-setup: SETUP.md
+setup:
+  claude: setup/claude.md
+  cursor: setup/cursor.md
+  windsurf: setup/windsurf.md
+  cline: setup/cline.md
+  opencode: setup/opencode.md
 ```
 
 ### Example 2: Skillset with skills and rules

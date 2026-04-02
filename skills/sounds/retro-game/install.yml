@@ -4,6 +4,10 @@ description: "Retro game sound effects that help track AI coding assistant state
 license: MIT
 compatibility:
   - Claude Code
+  - Cursor
+  - Windsurf
+  - Cline
+  - OpenCode
 requires:
   - node@18
 
@@ -19,4 +23,9 @@ hooks:
       - permission.wav
       - subagent-complete.wav
 
-setup: SETUP.md
+setup:
+  claude: setup/claude.md
+  cursor: setup/cursor.md
+  windsurf: setup/windsurf.md
+  cline: setup/cline.md
+  opencode: setup/opencode.md

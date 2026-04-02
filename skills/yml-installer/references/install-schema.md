@@ -12,7 +12,7 @@ Reference for the universal `install.yml` manifest format used by `spm`.
 | `license` | string | no | License identifier (e.g., `MIT`) |
 | `compatibility` | list | no | List of compatible tools or runtimes (e.g., `Claude Code CLI`, `node@22`) |
 | `requires` | list | no | List of required tools or runtimes with optional version (e.g., `node@18`, `gh`) |
-| `setup` | string | no | Path to post-install instructions (e.g., `SETUP.md`) |
+| `setup` | string or map | no | Setup instructions — a single file path (`SETUP.md`) or a map of provider-specific files |
 
 ## Content Sections
 
@@ -76,6 +76,75 @@ skills:
 7. `hooks` and `skills` entries must be maps of name → `{ source, files }` object
 8. All paths (agents, rules, files, source) can be relative to `install.yml` or full URLs for external sources
 9. Omit empty sections entirely (don't write `agents: []` or `skills: {}`)
+10. `setup` must be either a string (single file path) or a map of `provider: path` entries. Valid provider keys: `claude`, `cursor`, `windsurf`, `cline`, `opencode`
+
+## Setup
+
+The `setup` field supports two formats:
+
+### Single file (all providers in one file)
+
+```yaml
+setup: SETUP.md
+```
+
+### Per-provider files
+
+```yaml
+setup:
+  claude: setup/claude.md
+  cursor: setup/cursor.md
+  windsurf: setup/windsurf.md
+  cline: setup/cline.md
+  opencode: setup/opencode.md
+```
+
+The installer picks the right file based on the detected provider. Only include providers that need setup.
+
+Valid provider keys: `claude`, `cursor`, `windsurf`, `cline`, `opencode`.
+
+### Setup file structure
+
+Setup files are **agent instructions** — they tell the spawned Claude what config files to generate. The spawned Claude writes files into `.spm/<name>/` (sandboxed with `acceptEdits`), then spm moves/merges them to the provider's config location. This avoids granting elevated permissions to arbitrary setup content.
+
+Each setup file **must** use structured phases:
+
+| Section | Required | Description |
+|---------|----------|-------------|
+| `## Pre Install` | no | Prerequisites to check **before** `spm install` — required tools, runtimes, platform dependencies |
+| `## Post Install` | no | Instructions for the spawned Claude to **generate config files** in the working directory. spm handles moving/merging to the correct provider location |
+
+At least one phase (`## Pre Install` or `## Post Install`) must be present. Both may be included.
+
+**Provider config targets** (spm moves files automatically):
+
+| Provider | Config file | Target path |
+|----------|------------|-------------|
+| `claude` | `settings.json` | `.claude/settings.json` |
+| `cursor` | `hooks.json` | `.cursor/hooks.json` |
+| `windsurf` | `hooks.json` | `.windsurf/hooks.json` |
+| `cline` | `hooks/*` | `.clinerules/hooks/*` |
+| `opencode` | `plugins/*.mjs` | `.opencode/plugins/*.mjs` |
+
+**Per-provider file example** (`setup/claude.md`):
+
+```markdown
+# <Package Name>
+
+## Pre Install
+
+- Node.js v18+
+
+## Post Install
+
+Write `settings.json` with the following content:
+
+\`\`\`json
+{
+  "hooks": { ... }
+}
+\`\`\`
+```
 
 ## Examples
 
@@ -101,7 +170,12 @@ hooks:
       - error.wav
       - subagent-complete.wav
 
-setup: SETUP.md
+setup:
+  claude: setup/claude.md
+  cursor: setup/cursor.md
+  windsurf: setup/windsurf.md
+  cline: setup/cline.md
+  opencode: setup/opencode.md
 ```
 
 ### Skillset with skills and rules

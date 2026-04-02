@@ -32,4 +32,9 @@ skills: {}
 #      - SKILL.md
 #      - references/command.md
 
-setup: # SETUP.md
+setup: # SETUP.md (single file) or per-provider map:
+#  claude: setup/claude.md
+#  cursor: setup/cursor.md
+#  windsurf: setup/windsurf.md
+#  cline: setup/cline.md
+#  opencode: setup/opencode.md
