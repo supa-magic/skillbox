@@ -10,7 +10,7 @@ If no branch argument was provided, default to `main`.
 
 !`git fetch origin`
 
-**Confirmation gate:** Show which branch the current branch will be rebased onto. If `-y` → proceed. Otherwise → ask "Rebase `<current>` onto `origin/<branch>`?" and wait.
+**Confirmation gate:** Show which branch the current branch will be rebased onto. If `-y` or `--yes` → proceed. Otherwise → ask "Rebase `<current>` onto `origin/<branch>`?" and wait.
 
 ### Step 2: Rebase
 

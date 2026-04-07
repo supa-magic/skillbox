@@ -1,0 +1,81 @@
+name: arcana
+version: 1.0.0
+description: "Full-cycle AI development skills — from requirements to merge, with test-first workflows, AC validation, mutation testing, and wave-based parallel execution"
+license: MIT
+compatibility:
+  - Claude Code CLI
+requires:
+  - git
+
+agents:
+  arc-archmage:
+    source: ./
+    files:
+      - agents/arc-archmage.md
+  arc-mage:
+    source: ./
+    files:
+      - agents/arc-mage.md
+  arc-apprentice:
+    source: ./
+    files:
+      - agents/arc-apprentice.md
+
+skills:
+  arc-ac:
+    source: ./
+    files:
+      - skills/arc-ac/SKILL.md
+      - skills/arc-ac/enrich.md
+      - skills/arc-ac/references/three-questions.md
+      - skills/arc-ac/references/validation-criteria.md
+      - skills/arc-ac/update.md
+      - skills/arc-ac/validate.md
+      - skills/arc-ac/verify.md
+  arc-project:
+    source: ./
+    files:
+      - skills/arc-project/SKILL.md
+      - skills/arc-project/adr.md
+      - skills/arc-project/audit.md
+      - skills/arc-project/init.md
+      - skills/arc-project/setup.md
+      - skills/arc-project/skill-up.md
+  arc-code:
+    source: ./
+    files:
+      - skills/arc-code/SKILL.md
+      - skills/arc-code/review-request.md
+      - skills/arc-code/review-resolve.md
+  arc-implement:
+    source: ./
+    files:
+      - skills/arc-implement/SKILL.md
+      - skills/arc-implement/fix.md
+      - skills/arc-implement/multi.md
+      - skills/arc-implement/single.md
+  arc-plan:
+    source: ./
+    files:
+      - skills/arc-plan/SKILL.md
+  arc-prd:
+    source: ./
+    files:
+      - skills/arc-prd/SKILL.md
+      - skills/arc-prd/create.md
+      - skills/arc-prd/references/prd-structure.md
+      - skills/arc-prd/update.md
+  arc-test:
+    source: ./
+    files:
+      - skills/arc-test/SKILL.md
+      - skills/arc-test/mutate.md
+      - skills/arc-test/review.md
+      - skills/arc-test/references/testing-strategy.md
+      - skills/arc-test/references/examples/msw.md
+      - skills/arc-test/references/examples/mswjs-data.md
+      - skills/arc-test/references/examples/stryker.md
+      - skills/arc-test/references/examples/react-testing-library.md
+      - skills/arc-test/references/examples/jest-axe.md
+      - skills/arc-test/validate.md
+      - skills/arc-test/write.md

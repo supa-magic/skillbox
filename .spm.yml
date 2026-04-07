@@ -1,0 +1,6 @@
+version: 1
+providers:
+  claude:
+    path: .claude
+    hooks:
+      retro-game-sounds: https://github.com/supa-magic/skillbox/blob/main/skills/sounds/retro-game/install.yml

@@ -1,0 +1,281 @@
+# Skill Guidelines
+
+Rules, conventions, and validation for building skills. Derived from Anthropic's Complete Guide to Building Skills for Claude.
+
+## Folder Structure
+
+Every skill follows this standard structure:
+
+```
+skill-name/
+├── SKILL.md           # Required — main skill file
+├── action.md          # Optional — sub-instruction files at root
+├── scripts/           # Optional — executable code (Python, Bash, etc.)
+├── references/        # Optional — reference material (rules, docs, schemas)
+└── assets/            # Optional — templates, fonts, icons used in output
+```
+
+File placement guide:
+- `SKILL.md` is required — the main skill entry point
+- Sub-instruction files (workflow steps the AI follows) live at the skill root alongside SKILL.md
+- Reference material (rules, domain docs, API schemas, etc.) goes in `references/`
+- Executable scripts go in `scripts/`
+- Templates and static assets go in `assets/`
+
+## Frontmatter Rules
+
+### Required Fields
+
+```yaml
+---
+name: skill-name-in-kebab-case
+description: What it does and when to use it. Include specific trigger phrases.
+---
+```
+
+### Field Requirements
+
+**name** (required):
+- kebab-case only — no spaces, capitals, or underscores
+- Must match folder name
+- Must NOT contain vendor-specific terms ("claude", "anthropic", etc.)
+
+**description** (required):
+- MUST include BOTH: what the skill does AND when to use it (trigger conditions)
+- Under 1024 characters
+- No XML angle brackets (`<` `>`) — security restriction (frontmatter appears in system prompt)
+- Include specific phrases users would say
+- Mention relevant file types if applicable
+
+**user-invocable** (optional):
+- Set `true` for slash-command skills
+- Omit entirely for auto-triggered skills
+
+**argument-hint** (optional):
+- Only for user-invocable skills that accept arguments
+- Shows argument format: `"[name] [-y]"`
+
+**license** (optional):
+- Use if making skill open source (e.g., MIT, Apache-2.0)
+
+**compatibility** (optional):
+- 1-500 characters
+- Environment requirements: intended product, required packages, network access
+
+**metadata** (optional):
+- Custom key-value pairs (author, version, mcp-server)
+
+### Description Examples
+
+Good:
+```
+# Specific and actionable
+description: Analyzes Figma design files and generates developer handoff documentation. Use when user uploads .fig files, asks for "design specs", "component documentation", or "design-to-code handoff".
+
+# Includes trigger phrases
+description: Manages Linear project workflows including sprint planning, task creation, and status tracking. Use when user mentions "sprint", "Linear tasks", "project planning", or asks to "create tickets".
+```
+
+Bad:
+```
+# Too vague
+description: Helps with projects.
+
+# Missing triggers
+description: Creates sophisticated multi-page documentation systems.
+
+# Too technical, no user triggers
+description: Implements the Project entity model with hierarchical relationships.
+```
+
+## Writing Style
+
+- **Write for AI consumption** — the skill is read by an AI coding assistant, not a human. Focus on information that would be beneficial and non-obvious to the AI. Consider what procedural knowledge, domain-specific details, or reusable assets would help it execute tasks more effectively.
+- **Use imperative/infinitive form** (verb-first instructions), not second person. Use objective, instructional language (e.g., "To accomplish X, do Y" rather than "You should do X"). This maintains consistency and clarity for AI consumption.
+- **No duplication** — information should live in either SKILL.md or references files, not both. Prefer references files for detailed information unless it's truly core to the skill. Keep only essential procedural instructions and workflow guidance in SKILL.md.
+- **Large references** — if reference files are large (>10k words), include grep search patterns in SKILL.md so the AI can find relevant sections without loading the entire file.
+
+## Writing Quality Rules
+
+1. **Be specific and actionable** — "Run `scripts/validate.py --input {file}`" not "Validate the data"
+2. **Include error handling** — anticipate failures and provide recovery steps
+3. **Use progressive disclosure** — keep SKILL.md focused on core instructions, move detailed docs to `references/`
+4. **Reference bundled resources clearly** — "Before writing queries, consult `references/api-patterns.md` for rate limiting guidance"
+5. **Put critical instructions at the top** — don't bury important rules
+6. **Use numbered steps and bullet points** — not prose paragraphs
+7. **Include confirmation gates** — for destructive or hard-to-reverse actions
+8. **Show expected outputs** — so the developer knows what success looks like
+9. **Add examples** — concrete scenarios with user input and expected skill behavior
+10. **Keep SKILL.md under 5,000 words** — move detailed reference to `references/` files
+
+## Project-Specific Conventions
+
+Match the patterns used by existing skills in this project:
+
+- Use `## Usage` with a code block showing commands/arguments
+- Use `### Step N:` for workflow steps
+- Use blockquotes (`>`) for messages shown to the developer
+- Use **Confirmation gate:** pattern for actions needing approval
+- Use `-y` / `--yes` flag convention for skipping confirmations
+- Reference sub-instruction files with relative paths: "Read [file.md](./file.md) and follow all steps"
+- Use fenced code blocks for commands with expected output descriptions
+
+## Agnostic External Dependencies
+
+Skills must NOT hardcode specific tools, CLIs, or services for external operations. Instead, describe dependencies in natural language — this makes skills composable and allows any compatible skill or MCP server to fulfill the role.
+
+Natural language acts as a **common interface** between skills. A `git` skill that says "fetch the ticket description from the issue tracker using the appropriate skill or MCP tool" works with Jira, GitHub Issues, Linear, or Trello — whichever is installed.
+
+**Important:** Self-referential invocations (a skill calling its own subcommands) can use direct references. Only cross-skill references must be agnostic.
+
+### How to write agnostic instructions
+
+Describe *what* the skill needs, not *which tool* to use:
+
+| Hardcoded (avoid) | Agnostic (prefer) |
+|--------------------|---------------------|
+| "Run `gh issue view` to get the issue" | "Fetch the issue description from the project's issue tracker using the appropriate skill or MCP tool" |
+| "Query Jira API for the ticket" | "Fetch the ticket description from the project's issue tracker using the appropriate skill or MCP tool" |
+| "Send a Slack notification" | "Notify the team via the configured messaging system using the appropriate skill or MCP tool" |
+| "Run `kubectl get pods`" | "Retrieve the list of running services from the container orchestrator using the appropriate skill or MCP tool" |
+| "Use `aws s3 cp` to upload" | "Upload the artifact to the configured storage service using the appropriate skill or MCP tool" |
+
+### When a dependency is missing at runtime
+
+The generated skill should include fallback instructions for cases where no matching skill or MCP server is available. Add a section like this to the generated skill:
+
+```markdown
+### Dependency: <capability> (e.g., issue tracker, CI/CD, messaging)
+
+Fetch <what is needed> from the <system category> using the appropriate skill or MCP tool.
+
+If no matching skill or MCP tool is available, ask the developer:
+
+> I need to <action> but couldn't find a skill or MCP server for that. How would you like to proceed?
+>
+> 1. **Install one** — `npx @supa-magic/spm install https://github.com/supa-magic/skillbox/tree/main/skills/<skill-name>`
+> 2. **Create a new skill** for <system> integration
+> 3. **Search online** for a community skill or MCP server
+> 4. **Tell me what to do** — provide the information manually or point to where it lives
+```
+
+### Guidelines for dependency sections
+
+1. **One section per external capability** — if a skill needs both an issue tracker and a CI system, add two separate dependency sections
+2. **Describe the capability, not the product** — "issue tracker" not "Jira", "messaging system" not "Slack"
+3. **Always include the 4 fallback options** — install, create, search, manual
+4. **For the install option** — at creation time, verify the skill exists at `supa-magic/skillbox` before including it. If it does not exist, omit that option from the generated skill
+5. **Place dependency sections** near the step that first needs them, not at the end of the skill
+
+### Validation
+
+Add to every generated skill's validation:
+- [ ] No hardcoded CLI tools or service names for external operations
+- [ ] External dependencies use natural language delegation ("using the appropriate skill or MCP tool")
+- [ ] Each external dependency has a fallback section with resolution options
+
+## Shell Preprocessing
+
+Some AI coding assistants support shell preprocessing — commands that run before the prompt reaches the model, injecting output as static context. This saves a tool-call round trip for commands that always run.
+
+When writing skills, keep bash code blocks as the default (provider-agnostic). Shell preprocessing is applied as an optimization during refinement or installation, not during creation.
+
+**Eligible for preprocessing:** bash blocks that always run the same command with no `<placeholders>` or dynamic arguments.
+
+**Not eligible:** commands that depend on user input, prior step results, or contain placeholders.
+
+**Known providers with shell preprocessing support:**
+
+| Provider | Syntax |
+|----------|--------|
+| Claude Code | `` !`command` `` |
+| Open Code | `` !`command` `` |
+
+**Single command — before:**
+
+````markdown
+```bash
+git branch --show-current
+```
+````
+
+**Single command — after (using `` !`...` `` syntax):**
+
+```markdown
+!`git branch --show-current`
+```
+
+**Multiple commands in one block — before:**
+
+````markdown
+```bash
+git status
+git diff --staged
+git diff
+```
+````
+
+**Multiple commands — after:** each command becomes its own preprocessed line:
+
+```markdown
+!`git status`
+!`git diff --staged`
+!`git diff`
+```
+
+## Validation Checklist
+
+### Structure Validation
+- [ ] Folder named in kebab-case
+- [ ] SKILL.md file exists with exact casing (not SKILL.MD, skill.md, etc.)
+- [ ] No README.md inside skill folder
+- [ ] Reference material (rules, docs, schemas) in `references/`, not at skill root
+- [ ] Executable scripts in `scripts/`
+- [ ] YAML frontmatter has `---` delimiters (opening and closing)
+- [ ] `name` field is kebab-case, no spaces, no capitals
+- [ ] `name` matches folder name
+- [ ] `name` does not contain vendor-specific terms ("claude", "anthropic", etc.)
+- [ ] `description` includes WHAT it does AND WHEN to use it
+- [ ] `description` is under 1024 characters
+- [ ] No XML angle brackets (`<` `>`) in frontmatter
+
+### Content Validation
+- [ ] Instructions are clear and actionable (not vague)
+- [ ] Steps are numbered and sequential
+- [ ] Error handling included for likely failure points
+- [ ] Examples provided for common scenarios
+- [ ] References to bundled files use correct paths
+- [ ] SKILL.md is under 5,000 words
+
+### Dependency Validation
+- [ ] No hardcoded CLI tools or service names for external operations
+- [ ] External dependencies use natural language delegation ("using the appropriate skill or MCP tool")
+- [ ] Each external dependency has a fallback section with resolution options
+
+### Triggering Validation (auto-triggered skills only — skip for user-invocable)
+- [ ] Description includes specific trigger phrases
+- [ ] Description mentions relevant file types (if applicable)
+- [ ] Description is specific enough to avoid over-triggering
+- [ ] Description is broad enough to catch paraphrased requests
+
+## Troubleshooting
+
+### Skill doesn't trigger automatically
+Cause: Description field is too vague or missing trigger phrases.
+Solution: Add specific phrases users would say. Include file types if relevant. Test by asking the AI "When would you use the `<skill-name>` skill?" to debug.
+
+### Skill triggers on unrelated queries
+Cause: Description is too broad.
+Solution: Add negative triggers ("Do NOT use for..."), be more specific about scope, or clarify the domain.
+
+### Instructions not followed consistently
+Cause: Instructions are too verbose, ambiguous, or buried.
+Solution: Put critical instructions at top, use bullet points, move detailed docs to `references/`, add "CRITICAL:" prefix for must-follow rules.
+
+### Skill is too large
+Cause: Too much content in SKILL.md.
+Solution: Move detailed documentation to `references/` directory. Keep SKILL.md under 5,000 words. Use progressive disclosure — link to reference files instead of inlining.
+
+### Large context issues
+Cause: Skill content too large or too many skills enabled simultaneously.
+Solution: Optimize SKILL.md size, move detailed docs to `references/`, keep SKILL.md under 5,000 words, consider skill "packs" for related capabilities.

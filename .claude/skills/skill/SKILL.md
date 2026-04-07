@@ -1,10 +1,10 @@
 ---
 name: skill
-description: Interactive skill creator and refiner. Use when developer wants to create a new Claude skill, build a skill, scaffold a skill, refine or improve an existing skill, or says "new skill". Walks through use case definition, structure planning, SKILL.md generation, and validation.
+description: Interactive skill creator and refiner. Use when developer wants to create a new skill, build a skill, scaffold a skill, refine or improve an existing skill, or says "new skill". Walks through use case definition, structure planning, SKILL.md generation, and validation.
 user-invocable: true
 argument-hint: "create|refine <skill-name> [-y]"
 license: MIT
-compatibility: "Claude Code CLI"
+compatibility: "Any AI coding assistant that supports skills (Claude Code, Open Code, etc.)"
 metadata:
   author: supa-magic
   version: 1.0.0
@@ -16,7 +16,7 @@ metadata:
 
 # /skill $ARGUMENTS
 
-Interactive workflow to create or refine Claude skills.
+Interactive workflow to create or refine skills.
 
 ## Usage
 
@@ -56,15 +56,15 @@ Store parsed values and reference them throughout — do NOT re-parse later.
 
 **If `subcommand = refine`:**
 - Verify `.claude/skills/<skill-name>/SKILL.md` exists. If not → error: "Skill `<skill-name>` not found." and stop.
-- Read `claude/skill/refine.md` and follow all steps.
+- Read `./refine.md` and follow all steps.
 
 **If `subcommand = create`:**
 - Check if `.claude/skills/<skill-name>/SKILL.md` already exists
 - If it exists → ask:
   > Skill **`<skill-name>`** already exists. Would you like to refine it instead? [Y/n]
-  - If yes (or default) → set `subcommand = refine`, read `claude/skill/refine.md` and follow all steps
+  - If yes (or default) → set `subcommand = refine`, read `./refine.md` and follow all steps
   - If no → error: "Skill already exists. Choose a different name." and stop.
-- If it does NOT exist → read `claude/skill/create.md` and follow all steps
+- If it does NOT exist → read `./create.md` and follow all steps
 
 ## Troubleshooting
 

@@ -1,24 +1,42 @@
 ---
 name: github
-description: GitHub commands for issues, PRs, code reviews, and shipping. Use when developer needs to create issues, create/update PRs, address review comments, or ship experimental changes. Use when developer says "create issue", "open PR", "review comments", "resolve feedback", or "ship changes".
+description: GitHub commands for issues, PRs, code reviews, and shipping. Use when developer needs to create issues, fetch issue context (title, description, comments), create/update PRs, address review comments, or ship experimental changes. Also use when another skill or agent needs ticket context — invoke issue fetch. Requires gh CLI.
 user-invocable: true
 argument-hint: "issue|pull-request|code-review|ship [action] [args] [-y]"
+license: MIT
+compatibility: "Requires gh CLI (GitHub CLI) installed and authenticated"
+metadata:
+  author: supa-magic
+  version: 1.0.0
+  category: development
+  tags: [github, pull-requests, issues, code-review, workflow]
+  requires: gh
 ---
 
 # /github $ARGUMENTS
 
-GitHub workflow commands.
+GitHub workflow commands using `gh` CLI.
+
+## Sub-skills
+
+- **issue create** — conversational issue creation from rough ideas
+- **issue fetch** — fetch issue title, description, and comments as structured context. Use when any skill or agent needs ticket information (e.g., for planning, coding, or PR creation)
+- **pull-request create** — create PR with description derived from the linked issue
+- **pull-request update** — update existing PR title and description
+- **code-review resolve** — classify and resolve review comments on a PR
+- **ship** — ship experimental changes: create issue from diff, branch, commit, and open PR
 
 ## Usage
 
 ```
 /github
     issue create              Conversational issue creation
+    issue fetch [number]      Fetch issue title, description, and comments for context
     issue update              Update existing issue
     pull-request create       Create PR from current branch
     pull-request update [n]   Update PR title and description
     code-review resolve [n]   Resolve code review feedback
-    ship                      Ship experimental changes (issue → branch → commit → PR)
+    ship                      Ship experimental changes (issue -> branch -> commit -> PR)
 
     -y, --yes                 Skip confirmations
 ```
@@ -56,6 +74,7 @@ If the command or action is not recognized, show:
 Read the command-specific instruction file and follow it exactly:
 
 - **issue create** → Read [issue-create.md](./issue-create.md) and follow all steps
+- **issue fetch** → Read [issue-fetch.md](./issue-fetch.md) and follow all steps
 - **issue update** → _Not yet implemented_
 - **pull-request create** → Read [pull-request-create.md](./pull-request-create.md) and follow all steps
 - **pull-request update** → Read [pull-request-update.md](./pull-request-update.md) and follow all steps
@@ -64,14 +83,14 @@ Read the command-specific instruction file and follow it exactly:
 
 ## Examples
 
-### Example 1: Create an issue
+### Example 1: Create an issue from a rough idea
 
-User says: `/github issue create` (or `/github issue`)
+User says: `/github issue create` (or `/github issue` when only `create` is implemented)
 
 Actions:
 1. Ask developer to describe the problem or feature
 2. Refine into structured issue with acceptance criteria
-3. Confirm and create via issue tracker
+3. Confirm and create via `gh issue create`
 
 Result: `Created issue #42: https://github.com/org/repo/issues/42`
 
@@ -83,7 +102,7 @@ Actions:
 1. Resolve issue number from branch name
 2. Fetch issue details
 3. Generate PR title and description
-4. Confirm and create PR
+4. Confirm and create via `gh pr create`
 
 Result: `Created PR #43: https://github.com/org/repo/pull/43`
 
@@ -94,7 +113,7 @@ User says: `/github ship`
 Actions:
 1. Analyze uncommitted changes on main
 2. Create issue, branch, commit, and PR in sequence
-3. Each step uses the appropriate skill or tool
+3. Each step invokes the appropriate skill
 
 Result: Issue, branch, commit, and PR created in one flow
 

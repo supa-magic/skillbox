@@ -97,7 +97,7 @@ git branch --show-current
    git stash -u
    ```
 
-3. Create new branch using `/git branch`
+3. Create a new branch from the issue using the appropriate skill or MCP tool
 
 4. If changes were stashed, restore them:
 
@@ -187,11 +187,11 @@ Wait for response. If needs changes → apply fixes, update progress file, ask a
 
 ### Step 6: Commit & PR
 
-**Confirmation gate:** If `-y` → invoke `/git commit` and `/github create pr`, then proceed to Step 7. Otherwise → ask:
+**Confirmation gate:** If `-y` → commit changes and create a pull request using the appropriate skills or MCP tools, then proceed to Step 7. Otherwise → ask:
 
 > "Would you like to commit the changes and create a PR?"
 
-- **If yes** → invoke `/git commit`, then `/github create pr`
+- **If yes** → commit changes using the appropriate skill or MCP tool, then create a pull request using the appropriate skill or MCP tool
 - **If no** → proceed to Cleanup
 
 ### Cleanup
@@ -207,8 +207,8 @@ After all steps are complete, **delete** the progress file:
 ### Example 1: Basic implementation
 User says: `/implement 12`
 Actions:
-1. Fetch issue #12 details with `gh issue view 12`
-2. Create feature branch via `/git branch 12`
+1. Fetch issue #12 details from the issue tracker
+2. Create feature branch from issue
 3. Plan implementation, present plan, ask for mode preference
 4. Implement all plan items (or one-at-a-time in pair mode)
 5. Ask developer to verify, then commit and create PR
@@ -218,10 +218,10 @@ Result: Feature branch with implementation, committed and PR opened
 User says: `/implement 7 -y`
 Actions:
 1. Fetch issue #7 details
-2. Create feature branch via `/git branch 7`
+2. Create feature branch from issue
 3. Plan implementation, default to Auto mode (no confirmation)
 4. Implement all plan items sequentially
-5. Skip verification, auto-commit via `/git commit -y` and create PR via `/github create pr -y`
+5. Skip verification, auto-commit and create PR (no manual confirmations)
 Result: Full implementation with PR opened, no manual confirmations
 
 ### Example 3: Resuming previous work
@@ -241,7 +241,7 @@ Solution: Verify the issue number with `gh issue list`. Confirm the correct repo
 
 ### Error: Branch already exists
 Cause: A branch for this issue was already created (possibly from a previous attempt).
-Solution: `/git branch` will handle this — check if the existing branch has relevant work and offer to reuse it or create a new one.
+Solution: The branch creation skill will handle this — check if the existing branch has relevant work and offer to reuse it or create a new one.
 
 ### Error: Stash pop conflicts
 Cause: Uncommitted changes conflict with the new branch state after `git stash pop`.
