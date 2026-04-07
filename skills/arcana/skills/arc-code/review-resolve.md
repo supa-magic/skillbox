@@ -10,7 +10,7 @@ Works with both human reviewers and automated reviewers (code analysis tools, li
 
 1. Read `.arcana/project-context.md` for conventions
 2. Fetch PR comments and review status using the appropriate skill or MCP tool
-3. Fetch code analysis reports if available (via appropriate skills configured in `project-context.md`)
+3. Fetch automated review comments if available (e.g., Copilot, linter bots)
 4. Read AC files for the ticket (for context when classifying comments)
 
 #### Dependency: pull request comments

@@ -44,7 +44,7 @@ Prefer official CLI tools over MCP servers — CLIs are lighter on tokens and mo
 | Component testing (Angular) | Angular Testing Library | Angular projects | `@testing-library/angular` in dependencies |
 | Accessibility (JS/TS) | jest-axe / vitest-axe | Public-facing products | `jest-axe` or `vitest-axe` in dependencies |
 | Visual regression | Chromatic / Percy | Design systems, UI-heavy products | `chromatic` or `@percy/cli` in dependencies |
-| Code analysis | SonarQube | Enterprise projects | `sonar-project.properties` exists OR sonar config in CI |
+
 
 ### Contract Safety (recommended based on API type)
 
@@ -61,7 +61,7 @@ Prefer official CLI tools over MCP servers — CLIs are lighter on tokens and mo
 1. **Auto-detect** — scan git remote, config files, dependencies, CI pipelines using the detection hints above
 2. **Present findings** — show what was detected, what's missing
 3. **Ask developer** — for anything not auto-detected (especially tracker choice)
-4. **Install** — use `spm install supa-magic/skillbox#{skill}` for Arcana skills, suggest CLI install commands for tools
+4. **Install** — use `spm install https://github.com/supa-magic/skillbox/tree/main/skills/{skill}` for Arcana skills, suggest CLI install commands for tools
 5. **Record** — write installed tools and their example references to `project-context.md`
 
 ## Example References

@@ -44,7 +44,6 @@ Skills:
   ✅ git: github — installed, functional
   ✅ tracker: jira — installed, functional
   ❌ code-review: copilot — not installed
-  ⚠️ code-analyze: sonarqube — installed but config outdated
 
 Project Context:
   ✅ Stack — current
