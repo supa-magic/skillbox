@@ -8,9 +8,7 @@ Rebase current branch onto another branch.
 
 If no branch argument was provided, default to `main`.
 
-```bash
-git fetch origin
-```
+!`git fetch origin`
 
 **Confirmation gate:** Show which branch the current branch will be rebased onto. If `-y` → proceed. Otherwise → ask "Rebase `<current>` onto `origin/<branch>`?" and wait.
 

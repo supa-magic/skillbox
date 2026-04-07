@@ -2,14 +2,15 @@
 name: git
 description: Git commands for branching, committing, merging, pushing, rebasing, and squashing. Use when developer needs to create branches, commit changes, push, merge or rebase branches, or squash commits.
 user-invocable: true
-argument-hint: "branch|commit|merge|push|rebase|squash [args] [-y]"
+argument-hint: "branch [create]|commit [squash]|merge|push|rebase [args] [-y]"
 context: fork
+license: MIT
+compatibility: "Any AI coding assistant that supports skills (Claude Code, Open Code, etc.)"
 metadata:
   author: supa-magic
-  version: 1.0.0
+  version: 2.0.0
   category: development
   tags: [git, version-control, branching, commits, workflow]
-  requires: gh
 ---
 
 # /git $ARGUMENTS
@@ -20,12 +21,12 @@ Git workflow commands.
 
 ```
 /git
-    branch [issue]        Create branch from GitHub issue
-    commit                Smart commit with auto-grouping
+    branch create [issue]  Create branch from issue tracker ticket
+    commit create         Smart commit with auto-grouping (create can be omitted)
+    commit squash         Squash all branch commits into clean commit(s)
     merge [branch]        Merge branch into current (default: main)
     push                  Validate commits and push to remote
     rebase [branch]       Rebase current branch onto another (default: main)
-    squash                Squash all branch commits into clean commit(s)
 
     -y, --yes             Skip confirmations
 ```
@@ -50,35 +51,37 @@ These rules apply to ALL git operations — main thread and all agents.
 
 Extract from `$ARGUMENTS`:
 
-1. First non-flag token → `command` (one of: `branch`, `commit`, `merge`, `push`, `rebase`, `squash`)
-2. Remaining non-flag tokens → passed to the subcommand as positional args
-3. `-y` or `--yes` anywhere → skip all confirmation gates
+1. First non-flag token → `command` (one of: `branch`, `commit`, `merge`, `push`, `rebase`)
+2. If `command` is `branch`: next token may be a subcommand (`create`). If omitted or if the next token looks like an issue number, default to `create`
+3. If `command` is `commit`: next token may be a subcommand (`create` or `squash`). If omitted, default to `create`
+4. Remaining non-flag tokens → passed to the subcommand as positional args
+5. `-y` or `--yes` anywhere → skip all confirmation gates
 
 If no command is provided, list the available commands and ask the developer which one to run.
 
 If the command is not recognized, show:
 
-> Unknown command `<command>`. Available commands: `branch`, `commit`, `merge`, `push`, `rebase`, `squash`.
+> Unknown command `<command>`. Available commands: `branch`, `commit`, `merge`, `push`, `rebase`.
 
 ### Step 2: Route to Subcommand
 
 Read the command-specific instruction file and follow it exactly:
 
-- **branch** → Read [branch.md](./branch.md) and follow all steps
-- **commit** → Read [commit.md](./commit.md) and follow all steps
+- **branch create** → Read [branch.md](./branch.md) and follow all steps
+- **commit create** → Read [commit.md](./commit.md) and follow all steps
+- **commit squash** → Read [commit-squash.md](./commit-squash.md) and follow all steps
 - **merge** → Read [merge.md](./merge.md) and follow all steps
 - **push** → Read [push.md](./push.md) and follow all steps
 - **rebase** → Read [rebase.md](./rebase.md) and follow all steps
-- **squash** → Read [squash.md](./squash.md) and follow all steps
 
 ## Examples
 
 ### Example 1: Create a branch from an issue
 
-User says: `/git branch 42`
+User says: `/git branch 42` (or `/git branch create 42`)
 
 Actions:
-1. Fetch issue #42 from GitHub
+1. Fetch ticket #42 from the project's issue tracker using the appropriate skill or MCP tool
 2. Determine branch type from labels (e.g., `enhancement` → `feature/`)
 3. Generate branch name: `feature/42/add-user-auth`
 4. Create and switch to branch
@@ -113,7 +116,7 @@ Result: `Pushed 3 commit(s) to origin/feature/42/add-user-auth`
 
 ### Example 4: Squash branch commits before PR
 
-User says: `/git squash`
+User says: `/git commit squash`
 
 Actions:
 1. Verify not on main, working tree is clean

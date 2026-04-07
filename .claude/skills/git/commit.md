@@ -36,20 +36,16 @@ Examples: `📦feat(auth): add login screen`, `🛠️fix(build): correct asset 
 
 ### Step 1: Check branch name
 
-```bash
-git branch --show-current
-```
+!`git branch --show-current`
 
 Verify current branch follows naming convention (`<type>/<issue>/<description>`).
 If invalid → warn user before proceeding.
 
 ### Step 2: Analyze changes
 
-```bash
-git status
-git diff --staged
-git diff
-```
+!`git status`
+!`git diff --staged`
+!`git diff`
 
 | Scenario | Action |
 |----------|--------|

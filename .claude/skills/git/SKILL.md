@@ -2,7 +2,7 @@
 name: git
 description: Git commands for branching, committing, merging, rebasing, and squashing. Use when developer needs to create branches, commit changes, merge or rebase branches, or squash commits.
 user-invocable: true
-argument-hint: "branch|commit|merge|rebase|squash [args] [-y]"
+argument-hint: "branch [create]|commit [squash]|merge|rebase [args] [-y]"
 metadata:
   author: supa-magic
   version: 1.1.0
@@ -18,11 +18,11 @@ Git workflow commands.
 
 ```
 /git
-    branch [issue]        Create branch from GitHub issue
-    commit                Smart commit with auto-grouping
+    branch create [issue]  Create branch from GitHub issue (create can be omitted)
+    commit create         Smart commit with auto-grouping (create can be omitted)
+    commit squash         Squash all branch commits into clean commit(s)
     merge [branch]        Merge branch into current (default: main)
     rebase [branch]       Rebase current branch onto another (default: main)
-    squash                Squash all branch commits into clean commit(s)
 
     -y, --yes             Skip confirmations
 ```
@@ -43,25 +43,27 @@ See [references/rules.md](references/rules.md) — applies to ALL git operations
 
 Extract from `$ARGUMENTS`:
 
-1. First non-flag token → `command` (one of: `branch`, `commit`, `merge`, `rebase`, `squash`)
-2. Remaining non-flag tokens → passed to the subcommand as positional args
-3. `-y` or `--yes` anywhere → `skip_confirmations = true`
+1. First non-flag token → `command` (one of: `branch`, `commit`, `merge`, `rebase`)
+2. If `command` is `branch`: next token may be a subcommand (`create`). If omitted or if the next token looks like an issue number, default to `create`
+3. If `command` is `commit`: next token may be a subcommand (`create` or `squash`). If omitted, default to `create`
+4. Remaining non-flag tokens → passed to the subcommand as positional args
+5. `-y` or `--yes` anywhere → `skip_confirmations = true`
 
 If no command is provided, list the available commands and ask the developer which one to run.
 
 If the command is not recognized, show:
 
-> Unknown command `<command>`. Available commands: `branch`, `commit`, `merge`, `rebase`, `squash`.
+> Unknown command `<command>`. Available commands: `branch`, `commit`, `merge`, `rebase`.
 
 ### Step 2: Route to Subcommand
 
 Read the command-specific instruction file and follow it exactly:
 
 - **branch** → Read `.claude/skills/git/branch.md` and follow all steps
-- **commit** → Read `.claude/skills/git/commit.md` and follow all steps
+- **commit create** → Read `.claude/skills/git/commit.md` and follow all steps
+- **commit squash** → Read `.claude/skills/git/commit-squash.md` and follow all steps
 - **merge** → Read `.claude/skills/git/merge.md` and follow all steps
 - **rebase** → Read `.claude/skills/git/rebase.md` and follow all steps
-- **squash** → Read `.claude/skills/git/squash.md` and follow all steps
 
 ## Examples
 
@@ -92,7 +94,7 @@ Result: `[feature/42/add-user-auth abc1234] 📦feat(auth): add login endpoint`
 
 ### Example 3: Squash branch commits before PR
 
-User says: `/git squash`
+User says: `/git commit squash`
 
 Actions:
 1. Verify not on main, working tree is clean

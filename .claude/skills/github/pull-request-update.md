@@ -1,4 +1,4 @@
-# GitHub Update PR
+# Pull Request Update
 
 Update an existing PR's title and description from GitHub issue.
 
@@ -12,7 +12,7 @@ Update an existing PR's title and description from GitHub issue.
 
 ### Step 2: Resolve issue number
 
-Extract from PR branch name (see [rules.md](rules.md) > Resolving Issue Number).
+Extract from PR branch name (see [references/rules.md](./references/rules.md) > Resolving Issue Number).
 
 ### Step 3: Fetch GitHub issue
 
@@ -24,14 +24,12 @@ Get issue title, description, and labels.
 
 ### Step 4: Analyze current branch
 
-```bash
-git log main..HEAD --oneline
-git diff main..HEAD --stat
-```
+!`git log main..HEAD --oneline`
+!`git diff main..HEAD --stat`
 
 ### Step 5: Generate PR title
 
-See [rules.md](rules.md) > PR Title Format.
+See [references/rules.md](./references/rules.md) > PR Title Format.
 
 ### Step 6: Generate PR description
 

@@ -8,9 +8,7 @@ Merge a branch into the current branch.
 
 If no branch argument was provided, default to `main`.
 
-```bash
-git fetch origin
-```
+!`git fetch origin`
 
 **Confirmation gate:** Show which branch will be merged into the current branch. If `-y` or `--yes` → proceed. Otherwise → ask "Merge `origin/<branch>` into `<current>`?" and wait.
 

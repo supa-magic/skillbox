@@ -27,15 +27,15 @@ Configured in `.mcp.json` (project-local):
 **Git:**
 - `/git branch [issue]` — Create branch from GitHub issue
 - `/git commit [-y]` — Smart commit with auto-grouping
+- `/git commit squash [-y]` — Squash all branch commits into clean commit(s)
 - `/git merge [branch] [-y]` — Merge branch into current
 - `/git rebase [branch] [-y]` — Rebase current branch onto another
-- `/git squash [-y]` — Squash all branch commits into clean commit(s)
 
 **GitHub:**
-- `/github create issue [-y]` — Conversational issue creation (refines rough input into structured ticket)
-- `/github create pr [-y]` — Create PR with description from GitHub issue
-- `/github update pr [pr-number] [-y]` — Update existing PR title and description
-- `/github resolve cr [pr-number] [-y]` — Resolve code review feedback on a PR
+- `/github issue create [-y]` — Conversational issue creation (refines rough input into structured ticket)
+- `/github pull-request create [-y]` — Create PR with description from GitHub issue
+- `/github pull-request update [pr-number] [-y]` — Update existing PR title and description
+- `/github code-review resolve [pr-number] [-y]` — Resolve code review feedback on a PR
 - `/github ship [-y]` — Ship experimental changes (create issue from diff, branch, commit, open PR)
 
 
@@ -50,10 +50,10 @@ See `.claude/rules/coding.md` for full conventions — TypeScript, naming, and c
   - Branching → `/git branch`
   - Merging → `/git merge`
   - Rebasing → `/git rebase`
-  - Creating PRs → `/github create pr`
-  - Updating PRs → `/github update pr`
-  - Resolving reviews → `/github resolve cr`
-  - Creating issues → `/github create issue`
+  - Creating PRs → `/github pull-request create`
+  - Updating PRs → `/github pull-request update`
+  - Resolving reviews → `/github code-review resolve`
+  - Creating issues → `/github issue create`
   - Shipping experimental changes → `/github ship`
   - Never add `Co-Authored-By`, "Generated with Claude Code", or any AI/tool attribution to commits, PRs, or messages
   - Never commit or push without explicit developer permission

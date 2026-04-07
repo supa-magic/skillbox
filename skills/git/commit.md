@@ -17,20 +17,16 @@ Read and follow [references/conventional-commits.md](./references/conventional-c
 
 ### Step 2: Check branch name
 
-```bash
-git branch --show-current
-```
+!`git branch --show-current`
 
 Verify current branch follows naming convention (`<type>/<issue>/<description>`).
 If invalid → warn user before proceeding.
 
 ### Step 3: Analyze changes
 
-```bash
-git status
-git diff --staged
-git diff
-```
+!`git status`
+!`git diff --staged`
+!`git diff`
 
 | Scenario | Action |
 |----------|--------|

@@ -1,4 +1,4 @@
-# GitHub Resolve CR
+# Code Review Resolve
 
 Address code review feedback on a pull request.
 

@@ -40,7 +40,7 @@ Reject if any message:
 - Starts with `wip` or `WIP` (case-insensitive)
 - Contains `Co-Authored-By` or `Co-authored-by`
 
-If violations found → list them and stop. Suggest using `/git squash` to clean up.
+If violations found → list them and stop. Suggest using `/git commit squash` to clean up.
 
 ### Step 3: Push
 
