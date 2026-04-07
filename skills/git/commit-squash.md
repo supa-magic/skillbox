@@ -8,15 +8,14 @@ Squash all commits on the current branch into clean commit(s) via `/git commit`.
 
 !`git branch --show-current`
 !`git status --porcelain`
-!`git merge-base main HEAD`
 
 If on `main` or `master` → error: "Cannot squash on the main branch. Switch to a feature branch first." and stop.
 
 If there are uncommitted changes → note them. They will be included in the squash — after soft reset, all branch changes (committed and uncommitted) end up as unstaged changes together.
 
-If `main` doesn't exist, try `master`. If neither works, ask the developer.
+Determine the merge-base. Try `main` first, fall back to `master` if it doesn't exist:
 
-If `main` doesn't exist, try `master`. If neither works, ask the developer.
+!`git merge-base main HEAD` — if this fails, try `git merge-base master HEAD`. If neither works, ask the developer.
 
 ### Step 2: Analyze all branch commits
 

@@ -32,7 +32,7 @@ Wait for response. Map answers to skills from the catalog.
 
 For each required skill:
 1. Check if already installed
-2. If not → install from `supa-magic/skillbox` via `spm install supa-magic/skillbox#{skill}`
+2. If not → install from `supa-magic/skillbox` via `spm install https://github.com/supa-magic/skillbox/tree/main/skills/{skill}`
 3. If skill not available in skillbox → suggest creating via `/skill create`
 
 **Confirmation gate:** If `-y` → install all. Otherwise → show list and ask: "Install these skills?" Wait for confirmation.

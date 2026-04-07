@@ -17,7 +17,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node C:/_projects/skillbox/.claude/hooks/retro-game-sounds/player.mjs complete"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs complete"
           }
         ]
       }
@@ -27,7 +27,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node C:/_projects/skillbox/.claude/hooks/retro-game-sounds/player.mjs attention"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs attention"
           }
         ]
       }
@@ -37,7 +37,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node C:/_projects/skillbox/.claude/hooks/retro-game-sounds/player.mjs error"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs error"
           }
         ]
       }
@@ -47,7 +47,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node C:/_projects/skillbox/.claude/hooks/retro-game-sounds/player.mjs subagent-complete"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs subagent-complete"
           }
         ]
       }
@@ -57,7 +57,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node C:/_projects/skillbox/.claude/hooks/retro-game-sounds/player.mjs permission"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs permission"
           }
         ]
       }
@@ -67,7 +67,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "node C:/_projects/skillbox/.claude/hooks/retro-game-sounds/player.mjs compacted"
+            "command": "node .claude/hooks/retro-game-sounds/player.mjs compacted"
           }
         ]
       }
